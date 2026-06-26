@@ -1,0 +1,68 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "A pharmaceutical or medical equipment product in the catalog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique identifier" },
+        "name": { "type": "string", "description": "Product name" },
+        "category": { "type": "string", "description": "Category group" },
+        "price": { "type": "number", "description": "Naira price (₦)" },
+        "description": { "type": "string", "description": "Clinical description" },
+        "image": { "type": "string", "description": "Base64 encoded image or unsplash URL" },
+        "availability": { "type": "string", "description": "In Stock, Requires Prescription, Out of Stock" },
+        "rating": { "type": "number", "description": "Customer rating" },
+        "reviewsCount": { "type": "number", "description": "Number of reviews" }
+      },
+      "required": ["id", "name", "category", "price", "image", "availability"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Global website configuration, contact details, and customizable brand parameters",
+      "type": "object",
+      "properties": {
+        "websiteName": { "type": "string", "description": "Brand short name" },
+        "websiteSubName": { "type": "string", "description": "Brand sub-heading" },
+        "companyFullName": { "type": "string", "description": "Full legal company name" },
+        "telephone": { "type": "string", "description": "Contact telephone number" },
+        "email": { "type": "string", "description": "Support email address" },
+        "address": { "type": "string", "description": "Short display address" },
+        "fullAddress": { "type": "string", "description": "Full legal postal/maps address" },
+        "whatsappNumber": { "type": "string", "description": "WhatsApp dispatch number without leading plus" },
+        "deliveryFee": { "type": "number", "description": "Naira delivery dispatch fee" },
+        "consultationFee": { "type": "number", "description": "Pharmacist consultation booking fee" },
+        "allowPrescriptionRequires": { "type": "boolean", "description": "Block non-prescription users from adding prescription drugs to cart" },
+        "maintenanceMode": { "type": "boolean", "description": "Enable full maintenance mode overlay" },
+        "logo": { "type": "string", "description": "Custom brand logo (Base64 or URL)" }
+      },
+      "required": ["websiteName", "companyFullName", "telephone", "email", "fullAddress", "whatsappNumber"]
+    },
+    "Log": {
+      "title": "Log",
+      "description": "Activity, visitor events, and system audit logs",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique log identifier" },
+        "type": { "type": "string", "description": "system, visitor, or whatsapp_click" },
+        "message": { "type": "string", "description": "Description of the event" },
+        "timestamp": { "type": "string", "description": "ISO timestamp string" }
+      },
+      "required": ["id", "type", "message", "timestamp"]
+    }
+  },
+  "firestore": {
+    "products/{productId}": {
+      "schema": "Product",
+      "description": "Collection of all medical and pharmaceutical products"
+    },
+    "settings/config": {
+      "schema": "Settings",
+      "description": "Single config document for global system settings"
+    },
+    "logs/{logId}": {
+      "schema": "Log",
+      "description": "Dynamic visitor activity and event log stream"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Alpharma Medical Hub",
+  "description": "Premium medical and pharmacy hub in Samaru, Zaria, Nigeria, providing quality medicines, medical equipment, and AI-assisted healthcare support.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
