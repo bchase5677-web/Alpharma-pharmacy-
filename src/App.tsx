@@ -6,6 +6,7 @@ import AIChatWidget from './components/AIChatWidget';
 import AccountModal from './components/AccountModal';
 import LucideIcon from './components/LucideIcon';
 import AdminPanel from './components/AdminPanel';
+import InstallPWA from './components/InstallPWA';
 import { CATEGORIES, PRODUCTS, TESTIMONIALS, SERVICES } from './data';
 import { Product, CartItem, Tab, WebsiteSettings } from './types';
 import { 
@@ -364,6 +365,9 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 transition-colors duration-300">
       
+      {/* Install App Banner */}
+      <InstallPWA />
+
       {/* Sticky Header */}
       <Header
         activeTab={activeTab}
