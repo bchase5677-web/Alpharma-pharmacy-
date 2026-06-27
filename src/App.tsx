@@ -39,7 +39,11 @@ export default function App() {
     try {
       const res = await fetch('/api/settings');
       if (res.ok) {
-        const data = await res.json();
+        const data = await res.json() as WebsiteSettings;
+        if (data.logo && !data.logo.startsWith('data:')) {
+          const separator = data.logo.includes('?') ? '&' : '?';
+          data.logo = `${data.logo}${separator}cb=${Date.now()}`;
+        }
         setSettings(data);
       }
     } catch (err) {
@@ -104,6 +108,11 @@ export default function App() {
     const unsubscribeSettings = onSnapshot(doc(db, "settings", "config"), (snapshot) => {
       if (snapshot.exists()) {
         const data = snapshot.data() as WebsiteSettings;
+        if (data.logo && !data.logo.startsWith('data:')) {
+          // Force immediate invalidation by appending cache-busting timestamp
+          const separator = data.logo.includes('?') ? '&' : '?';
+          data.logo = `${data.logo}${separator}cb=${Date.now()}`;
+        }
         setSettings(data);
       } else {
         fetchSettings(); // Fallback if document is not seeded yet
@@ -1097,7 +1106,7 @@ export default function App() {
             </div>
 
             {/* Embeded Chat widget */}
-            <AIChatWidget isEmbed={true} />
+            <AIChatWidget isEmbed={true} onNavigate={setActiveTab} />
 
             {/* Important Disclaimer */}
             <div className="max-w-3xl mx-auto p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 rounded-2xl flex gap-3 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
@@ -1331,18 +1340,20 @@ export default function App() {
             <div className="space-y-4">
               <div className="flex items-center gap-2">
                 {settings.logo ? (
-                  <div className="w-9 h-9 rounded-xl overflow-hidden bg-white flex items-center justify-center border border-slate-800">
-                    <img src={settings.logo} alt="Logo" className="w-full h-full object-contain p-0.5" referrerPolicy="no-referrer" />
+                  <div className="h-10 flex items-center justify-start">
+                    <img key={settings.logo} src={settings.logo} alt={settings.websiteName} className="h-full max-h-10 w-auto object-contain" referrerPolicy="no-referrer" />
                   </div>
                 ) : (
-                  <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">
-                    Α
-                  </div>
+                  <>
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">
+                      Α
+                    </div>
+                    <div>
+                      <h4 className="text-base font-bold text-white tracking-tight">{settings.websiteName} {settings.websiteSubName}</h4>
+                      <span className="text-[9px] text-slate-400 block uppercase font-bold">Hub • {settings.address}</span>
+                    </div>
+                  </>
                 )}
-                <div>
-                  <h4 className="text-base font-bold text-white tracking-tight">{settings.websiteName} {settings.websiteSubName}</h4>
-                  <span className="text-[9px] text-slate-400 block uppercase font-bold">Hub • {settings.address}</span>
-                </div>
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
                 Registered pharmaceutical store and premium medical equipment distributor. Delivering certified, trusted healthcare solutions across {settings.address}, and nationwide in Nigeria.
@@ -1578,7 +1589,7 @@ export default function App() {
       />
 
       {/* Floating AI Assistant Chat Widget */}
-      {activeTab !== 'ai-assistant' && <AIChatWidget />}
+      {activeTab !== 'ai-assistant' && <AIChatWidget onNavigate={setActiveTab} />}
 
       {/* Back to top button */}
       {showBackToTop && (

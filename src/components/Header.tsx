@@ -43,7 +43,6 @@ export default function Header({
     { name: 'Services', id: 'services' },
     { name: 'AI Assistant', id: 'ai-assistant' },
     { name: 'Contact', id: 'contact' },
-    { name: 'Admin Portal', id: 'admin' },
   ];
 
   const handleNavClick = (tabId: Tab) => {
@@ -75,21 +74,23 @@ export default function Header({
           id="brand-logo"
         >
           {settings.logo ? (
-            <div className="w-10 h-10 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-transform bg-white dark:bg-slate-950 flex items-center justify-center border border-slate-100 dark:border-slate-800">
-              <img src={settings.logo} alt="Logo" className="w-full h-full object-contain p-1" referrerPolicy="no-referrer" />
+            <div className="h-12 sm:h-14 flex items-center justify-start group-hover:scale-105 transition-transform">
+              <img key={settings.logo} src={settings.logo} alt={settings.websiteName} className="h-full max-h-12 sm:max-h-14 w-auto object-contain" referrerPolicy="no-referrer" />
             </div>
           ) : (
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-xl shadow-md group-hover:scale-105 transition-transform">
-              Α
-            </div>
+            <>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-emerald-500 flex items-center justify-center text-white font-bold text-xl shadow-md group-hover:scale-105 transition-transform">
+                Α
+              </div>
+              <div className="flex flex-col">
+                <h1 className="text-lg font-bold leading-none tracking-tight flex items-center gap-1">
+                  <span className="text-blue-600 dark:text-blue-400">{settings.websiteName}</span>
+                  <span className="text-emerald-500">{settings.websiteSubName}</span>
+                </h1>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 tracking-wider uppercase font-semibold">Hub</span>
+              </div>
+            </>
           )}
-          <div className="flex flex-col">
-            <h1 className="text-lg font-bold leading-none tracking-tight flex items-center gap-1">
-              <span className="text-blue-600 dark:text-blue-400">{settings.websiteName}</span>
-              <span className="text-emerald-500">{settings.websiteSubName}</span>
-            </h1>
-            <span className="text-[10px] text-slate-500 dark:text-slate-400 tracking-wider uppercase font-semibold">Hub</span>
-          </div>
         </div>
 
         {/* Desktop Navigation */}

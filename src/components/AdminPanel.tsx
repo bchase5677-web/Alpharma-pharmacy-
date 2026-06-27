@@ -20,6 +20,54 @@ interface AdminPanelProps {
   onResetCatalog?: () => Promise<boolean>;
 }
 
+// Helper function to compress and resize images client-side before sending to server/Firestore
+function compressAndResizeImage(file: File, maxWidth: number, maxHeight: number, quality: number = 0.75): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+
+        // Calculate new dimensions while maintaining aspect ratio
+        if (width > maxWidth) {
+          height = Math.round((height * maxWidth) / width);
+          width = maxWidth;
+        }
+        if (height > maxHeight) {
+          width = Math.round((width * maxHeight) / height);
+          height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error('Failed to get canvas context'));
+          return;
+        }
+
+        // Fill background with white in case of transparent PNGs to avoid black borders/backgrounds on JPEG compression
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, width, height);
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convert canvas to base64 JPEG format which compresses extremely well
+        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+        resolve(compressedBase64);
+      };
+      img.onerror = (err) => reject(err);
+      img.src = event.target?.result as string;
+    };
+    reader.onerror = (err) => reject(err);
+    reader.readAsDataURL(file);
+  });
+}
+
 export default function AdminPanel({
   products,
   categories,
@@ -51,7 +99,28 @@ export default function AdminPanel({
   const [authError, setAuthError] = useState('');
 
   // Tab View
-  const [activeSubTab, setActiveSubTab] = useState<'dashboard' | 'inventory' | 'settings'>('dashboard');
+  const [activeSubTab, setActiveSubTab] = useState<'settings' | 'inventory' | 'orders'>('inventory');
+
+  // Helper to extract orders from logs dynamically
+  const getOrdersFromLogs = () => {
+    if (!stats?.logs) return [];
+    return stats.logs
+      .filter(log => log.type === 'whatsapp_click')
+      .map(log => {
+        const msg = log.message;
+        const nameMatch = msg.match(/Customer\s+(.+?)\s+initiated/);
+        const totalMatch = msg.match(/total\s+₦([\d,]+)/);
+        const customerName = nameMatch ? nameMatch[1] : 'Unknown Customer';
+        const orderTotal = totalMatch ? totalMatch[1] : '0';
+        return {
+          id: log.id,
+          customerName,
+          total: orderTotal,
+          timestamp: log.timestamp,
+          rawMessage: msg
+        };
+      });
+  };
 
   // Stats from Server
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -161,43 +230,35 @@ export default function AdminPanel({
     setPassword('');
   };
 
-  // Handle local image file upload conversion to base64
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle local image file upload conversion to base64 with client-side compression
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 8 * 1024 * 1024) { // 8MB limit check
-        setSubmitError('Image file is too large. Please select an image under 8MB.');
-        return;
-      }
       setSubmitError('');
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProdImageBase64(reader.result as string);
-      };
-      reader.onerror = () => {
-        setSubmitError('Failed to read the file.');
-      };
-      reader.readAsDataURL(file);
+      try {
+        // Compress product image down to 500x500 at 0.75 quality (usually ~15-30KB, extremely fast loading)
+        const compressedBase64 = await compressAndResizeImage(file, 500, 500, 0.75);
+        setProdImageBase64(compressedBase64);
+        triggerToast('Product image uploaded and optimized successfully!', 'success');
+      } catch (err: any) {
+        setSubmitError('Failed to optimize product image: ' + (err.message || err));
+        triggerToast('Failed to optimize product image', 'error');
+      }
     }
   };
 
-  // Handle local website logo upload conversion to base64
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Handle local website logo upload conversion to base64 with client-side compression
+  const handleLogoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      if (file.size > 5 * 1024 * 1024) { // 5MB limit check
-        triggerToast('Logo file is too large. Please select an image under 5MB.', 'error');
-        return;
+      try {
+        // Compress logo down to 350x350 at 0.8 quality (~10-15KB, highly optimized, runs/loads instantly across all devices)
+        const compressedBase64 = await compressAndResizeImage(file, 350, 350, 0.8);
+        setSettingsForm(prev => ({ ...prev, logo: compressedBase64 }));
+        triggerToast('Logo uploaded and optimized! Click "Save Settings" below to sync across all devices.', 'success');
+      } catch (err: any) {
+        triggerToast('Failed to optimize logo image: ' + (err.message || err), 'error');
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSettingsForm(prev => ({ ...prev, logo: reader.result as string }));
-        triggerToast('Logo uploaded and updated in memory! Save settings below to synchronize.', 'info');
-      };
-      reader.onerror = () => {
-        triggerToast('Failed to read logo file.', 'error');
-      };
-      reader.readAsDataURL(file);
     }
   };
 
@@ -483,16 +544,17 @@ export default function AdminPanel({
       </div>
 
       {/* THREE WAY NAVIGATION TABS */}
-      <div className="flex overflow-x-auto whitespace-nowrap border-b border-slate-100 dark:border-slate-800/80 gap-1.5 scrollbar-none">
+      <div className="flex overflow-x-auto whitespace-nowrap border-b border-slate-100 dark:border-slate-800/80 gap-1.5 scrollbar-none" id="admin-subtabs-nav">
         <button
-          onClick={() => setActiveSubTab('dashboard')}
+          onClick={() => setActiveSubTab('settings')}
           className={`px-5 py-3 rounded-t-xl text-xs font-extrabold transition-all flex items-center gap-2 border-b-2 shrink-0 ${
-            activeSubTab === 'dashboard'
+            activeSubTab === 'settings'
               ? 'border-blue-600 text-blue-600 bg-blue-50/20 dark:bg-blue-950/10'
               : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50/50'
           }`}
+          id="nav-settings-tab"
         >
-          <LayoutDashboard size={14} /> Analytics Dashboard
+          <SettingsIcon size={14} /> General Settings
         </button>
 
         <button
@@ -502,26 +564,28 @@ export default function AdminPanel({
               ? 'border-blue-600 text-blue-600 bg-blue-50/20 dark:bg-blue-950/10'
               : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50/50'
           }`}
+          id="nav-inventory-tab"
         >
-          <Package size={14} /> Master Inventory ({products.length})
+          <Package size={14} /> Product Inventory ({products.length})
         </button>
 
         <button
-          onClick={() => setActiveSubTab('settings')}
+          onClick={() => setActiveSubTab('orders')}
           className={`px-5 py-3 rounded-t-xl text-xs font-extrabold transition-all flex items-center gap-2 border-b-2 shrink-0 ${
-            activeSubTab === 'settings'
+            activeSubTab === 'orders'
               ? 'border-blue-600 text-blue-600 bg-blue-50/20 dark:bg-blue-950/10'
               : 'border-transparent text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50/50'
           }`}
+          id="nav-orders-tab"
         >
-          <SettingsIcon size={14} /> Core Configuration
+          <ShoppingCart size={14} /> Orders & Analytics
         </button>
       </div>
 
       {/* TAB SUBVIEW CONTENT */}
       
-      {/* 1. DASHBOARD TAB */}
-      {activeSubTab === 'dashboard' && (
+      {/* 1. ORDERS & ANALYTICS TAB */}
+      {activeSubTab === 'orders' && (
         <div className="space-y-6 animate-fade-in" id="dashboard-tab-panel">
           {/* STATS HIGHLIGHTS GRID */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -693,11 +757,62 @@ export default function AdminPanel({
               <div className="p-3 bg-blue-50/50 dark:bg-blue-950/20 border border-blue-100/40 dark:border-blue-900/40 rounded-2xl flex items-start gap-2 text-[11px]">
                 <Info size={16} className="text-blue-600 shrink-0 mt-0.5" />
                 <p className="text-blue-800/80 dark:text-blue-300/80 leading-relaxed font-medium">
-                  Settings modified in the <strong>Core Configuration</strong> tab instantly synchronize the AI chat prompts, WhatsApp redirections, and website details for all visitors.
+                  Settings modified in the <strong>General Settings</strong> tab instantly synchronize the AI chat prompts, WhatsApp redirections, and website details for all visitors.
                 </p>
               </div>
             </div>
 
+          </div>
+
+          {/* SECURE ORDERS TABLE */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 overflow-hidden shadow-sm" id="orders-table-panel">
+            <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                <ShoppingCart size={16} className="text-blue-600" /> WhatsApp Checkout Orders List
+              </h4>
+              <span className="bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 px-2.5 py-0.5 rounded-full text-[10px] font-bold">
+                {getOrdersFromLogs().length} Total Orders
+              </span>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-50/50 dark:bg-slate-950/20 text-[10px] font-bold text-slate-400 uppercase tracking-wider border-b border-slate-100 dark:border-slate-800">
+                    <th className="px-6 py-3.5">Order ID</th>
+                    <th className="px-6 py-3.5">Customer Name</th>
+                    <th className="px-6 py-3.5">Total Amount</th>
+                    <th className="px-6 py-3.5">Date & Time</th>
+                    <th className="px-6 py-3.5">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50 text-xs">
+                  {getOrdersFromLogs().length > 0 ? (
+                    getOrdersFromLogs().map((order) => (
+                      <tr key={order.id} className="hover:bg-slate-50/30 dark:hover:bg-slate-800/10 transition">
+                        <td className="px-6 py-4 font-mono text-[10px] text-slate-500 font-semibold">#{order.id.slice(-6)}</td>
+                        <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-200">{order.customerName}</td>
+                        <td className="px-6 py-4 font-black text-blue-600 dark:text-blue-400">₦{order.total}</td>
+                        <td className="px-6 py-4 text-slate-500 dark:text-slate-400">
+                          {new Date(Number(order.id) || Date.now()).toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className="bg-emerald-50 text-emerald-700 dark:bg-emerald-950/30 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-900/30 px-2.5 py-1 rounded-full text-[10px] font-bold inline-flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Dispatched via WA
+                          </span>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="px-6 py-12 text-center text-slate-400">
+                        No orders recorded yet. Complete a checkout in the cart to initiate your first order log!
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* REAL-TIME AUDIT LOGS */}

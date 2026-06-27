@@ -1,13 +1,14 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, PhoneCall, Sparkles, HeartPulse, ShieldAlert, ArrowUpRight } from 'lucide-react';
-import { Message } from '../types';
+import { Message, Tab } from '../types';
 
 interface AIChatWidgetProps {
   isEmbed?: boolean; // If true, display as a static element on the dedicated page
+  onNavigate?: (tab: Tab) => void;
 }
 
-export default function AIChatWidget({ isEmbed = false }: AIChatWidgetProps) {
+export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -19,11 +20,12 @@ export default function AIChatWidget({ isEmbed = false }: AIChatWidgetProps) {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showAdminButton, setShowAdminButton] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, showAdminButton]);
 
   const suggestedQuestions = [
     "What products do you have for Diabetes Care?",
@@ -32,8 +34,20 @@ export default function AIChatWidget({ isEmbed = false }: AIChatWidgetProps) {
     "Do you stock digital Blood Pressure monitors?"
   ];
 
+  const handleOpenAdmin = () => {
+    if (onNavigate) {
+      onNavigate('admin');
+      if (!isEmbed) {
+        setIsOpen(false);
+      }
+    }
+  };
+
   const handleSend = async (textToSend: string) => {
     if (!textToSend.trim()) return;
+
+    const trimmedText = textToSend.trim();
+    const isExactAdmin = trimmedText.toLowerCase() === 'admin';
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -44,6 +58,26 @@ export default function AIChatWidget({ isEmbed = false }: AIChatWidgetProps) {
 
     setMessages(prev => [...prev, userMessage]);
     setInput('');
+
+    if (isExactAdmin) {
+      setShowAdminButton(true);
+      setIsLoading(true);
+      // Simulate quick secure admin response client-side for absolute reliability
+      setTimeout(() => {
+        const assistantMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'model',
+          text: "🔐 Administrative access request recognized. Please click the button below to proceed to the secure Admin Panel. You will be required to authenticate with valid administrative credentials.",
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+        setIsLoading(false);
+      }, 500);
+      return;
+    }
+
+    // Hide the admin button immediately if anything other than admin is typed
+    setShowAdminButton(false);
     setIsLoading(true);
 
     try {
@@ -166,6 +200,28 @@ export default function AIChatWidget({ isEmbed = false }: AIChatWidgetProps) {
             </div>
           </div>
         )}
+
+        <AnimatePresence>
+          {showAdminButton && (
+            <motion.div
+              initial={{ opacity: 0, y: 10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 10, scale: 0.95 }}
+              className="flex justify-start w-full max-w-[85%] py-2"
+            >
+              <motion.button
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                onClick={handleOpenAdmin}
+                className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer"
+                id="open-admin-panel-btn"
+              >
+                <span>🔐 Open Admin Panel</span>
+              </motion.button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <div ref={messagesEndRef} />
       </div>
 
