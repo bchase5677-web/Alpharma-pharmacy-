@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { onSnapshot, collection, doc } from 'firebase/firestore';
 import { db } from './lib/firebase';
+import { getApiUrl } from './lib/api';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<Tab>('home');
@@ -39,7 +40,7 @@ export default function App() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch(window.location.origin + '/api/settings');
+      const res = await fetch(getApiUrl('/api/settings'));
       if (res.ok) {
         const data = await res.json() as WebsiteSettings;
         if (data.logo && !data.logo.startsWith('data:')) {
@@ -58,7 +59,7 @@ export default function App() {
 
   const handleUpdateSettings = async (newSettings: WebsiteSettings) => {
     try {
-      const res = await fetch(window.location.origin + '/api/settings', {
+      const res = await fetch(getApiUrl('/api/settings'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSettings)
@@ -76,7 +77,7 @@ export default function App() {
 
   const logEvent = async (type: string, message: string) => {
     try {
-      await fetch(window.location.origin + '/api/logs', {
+      await fetch(getApiUrl('/api/logs'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, message })
@@ -94,7 +95,7 @@ export default function App() {
   const fetchProducts = async () => {
     setIsLoadingProducts(true);
     try {
-      const res = await fetch(window.location.origin + '/api/products');
+      const res = await fetch(getApiUrl('/api/products'));
       if (res.ok) {
         const data = await res.json();
         setProducts(data);
@@ -229,7 +230,7 @@ export default function App() {
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      const res = await fetch(window.location.origin + `/api/products/${id}`, {
+      const res = await fetch(getApiUrl(`/api/products/${id}`), {
         method: 'DELETE'
       });
       if (res.ok) {

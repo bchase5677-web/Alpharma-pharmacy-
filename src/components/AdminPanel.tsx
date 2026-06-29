@@ -6,6 +6,7 @@ import {
   ShoppingCart, Globe, Mail, Phone, MapPin, DollarSign, Terminal, Layers, Info
 } from 'lucide-react';
 import { Product, Category, WebsiteSettings, ActivityLog, DashboardStats } from '../types';
+import { getApiUrl } from '../lib/api';
 
 interface AdminPanelProps {
   products: Product[];
@@ -54,11 +55,13 @@ function compressAndResizeImage(file: File, maxWidth: number, maxHeight: number,
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, width, height);
 
-        ctx.drawImage(img, 0, 0, width, height);
-
-        // Convert canvas to base64 JPEG format which compresses extremely well
-        const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
-        resolve(compressedBase64);
+        try {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
+          resolve(compressedBase64);
+        } catch (err: any) {
+          reject(new Error('Canvas compression failed: ' + (err.message || err.toString())));
+        }
       };
       img.onerror = (err) => reject(err);
       img.src = event.target?.result as string;
@@ -164,7 +167,7 @@ export default function AdminPanel({
     setIsLoadingStats(true);
     setStatsError('');
     try {
-      const res = await fetch(window.location.origin + '/api/stats');
+      const res = await fetch(getApiUrl('/api/stats'));
       if (res.ok) {
         const data = await res.json();
         setStats(data);

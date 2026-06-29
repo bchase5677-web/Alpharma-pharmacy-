@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, X, Send, PhoneCall, Sparkles, HeartPulse, ShieldAlert, ArrowUpRight } from 'lucide-react';
 import { Message, Tab } from '../types';
+import { getApiUrl } from '../lib/api';
 
 interface AIChatWidgetProps {
   isEmbed?: boolean; // If true, display as a static element on the dedicated page
@@ -87,7 +88,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
         text: m.text
       }));
 
-      const response = await fetch(window.location.origin + '/api/chat', {
+      const response = await fetch(getApiUrl('/api/chat'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
