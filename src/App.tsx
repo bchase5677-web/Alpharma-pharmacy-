@@ -195,7 +195,7 @@ export default function App() {
   // CRUD API Handlers for Admin Panel
   const handleAddProduct = async (newProduct: Omit<Product, 'id'>) => {
     try {
-      const res = await fetch(window.location.origin + '/api/products', {
+      const res = await fetch(getApiUrl('/api/products'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newProduct)
@@ -213,7 +213,7 @@ export default function App() {
 
   const handleEditProduct = async (id: string, updatedFields: Partial<Product>) => {
     try {
-      const res = await fetch(window.location.origin + `/api/products/${id}`, {
+      const res = await fetch(getApiUrl(`/api/products/${id}`), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFields)
