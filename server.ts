@@ -219,9 +219,10 @@ const DEFAULT_SETTINGS = {
   websiteSubName: "Medical Hub",
   companyFullName: "Alpharma Medical Hub Nig Ltd",
   telephone: "+234 803 737 7762",
-  email: "contact@alpharma.com.ng",
-  address: "Samaru, Zaria, Kaduna State",
-  fullAddress: "Alpharma Medical Hub, Opp. Gidan Jaji, Samaru, Zaria, Kaduna State, Nigeria",
+  email: "alpharmamedicalhubngltd@gmail.com",
+  address: "Samaru, Zaria, Kaduna",
+  fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
+  businessHours: "8am to 10pm all days",
   whatsappNumber: "2348037377762",
   deliveryFee: 1500,
   consultationFee: 5000,
@@ -570,6 +571,36 @@ app.post("/api/logs", (req, res) => {
 });
 
 async function startServer() {
+  app.get("/manifest.json", (req, res) => {
+    const currentSettings = loadSettings();
+    const defaultIcon = "https://placehold.co/512x512/2563eb/ffffff.png?text=A";
+    const icon = currentSettings.logo || defaultIcon;
+    
+    res.json({
+      "name": currentSettings.companyFullName || "Alpharmamed.co",
+      "short_name": currentSettings.websiteName || "Alpharmamed",
+      "description": currentSettings.companyFullName || "Alpharma Medical Hub Nig Ltd",
+      "start_url": "/",
+      "display": "standalone",
+      "background_color": "#ffffff",
+      "theme_color": "#2563eb",
+      "icons": [
+        {
+          "src": icon,
+          "sizes": "192x192",
+          "type": "image/png",
+          "purpose": "any maskable"
+        },
+        {
+          "src": icon,
+          "sizes": "512x512",
+          "type": "image/png",
+          "purpose": "any maskable"
+        }
+      ]
+    });
+  });
+
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },

@@ -14,7 +14,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
     {
       id: 'welcome',
       role: 'model',
-      text: "Hello! Welcome to Alpharma Medical Hub. 🇳🇬 I am your dedicated AI healthcare assistant. I can guide you on our medications, check clinical device availability, answer health FAQs, or help you organize your order. \n\nHow can I support your health today?",
+      text: "Hello! Welcome to Alpharma Medical Hub Nig Ltd. 🇳🇬 I am your dedicated AI healthcare assistant. I can guide you on our medications, check clinical device availability, answer health FAQs, or help you organize your order. \n\nHow can I support your health today?",
       timestamp: new Date()
     }
   ]);
@@ -87,7 +87,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
         text: m.text
       }));
 
-      const response = await fetch('/api/chat', {
+      const response = await fetch(window.location.origin + '/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +125,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
   };
 
   const handleEscalateToWhatsApp = () => {
-    const text = encodeURIComponent("Hello Alpharma Medical Hub, I need quick support with medications/medical equipment.");
+    const text = encodeURIComponent("Hello Alpharma Medical Hub Nig Ltd, I need quick support with medications/medical equipment.");
     window.open(`https://wa.me/2348037377762?text=${text}`, '_blank');
   };
 

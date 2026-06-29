@@ -164,7 +164,7 @@ export default function AdminPanel({
     setIsLoadingStats(true);
     setStatsError('');
     try {
-      const res = await fetch('/api/stats');
+      const res = await fetch(window.location.origin + '/api/stats');
       if (res.ok) {
         const data = await res.json();
         setStats(data);
@@ -416,9 +416,10 @@ export default function AdminPanel({
         websiteSubName: "Medical Hub",
         companyFullName: "Alpharma Medical Hub Nig Ltd",
         telephone: "+234 803 737 7762",
-        email: "contact@alpharma.com.ng",
-        address: "Samaru, Zaria, Kaduna State",
-        fullAddress: "Alpharma Medical Hub, Opp. Gidan Jaji, Samaru, Zaria, Kaduna State, Nigeria",
+        email: "alpharmamedicalhubngltd@gmail.com",
+        address: "Samaru, Zaria, Kaduna",
+        fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
+        businessHours: "8am to 10pm all days",
         whatsappNumber: "2348037377762",
         deliveryFee: 1500,
         consultationFee: 5000,
@@ -516,7 +517,7 @@ export default function AdminPanel({
             <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Admin Level: Superuser</span>
           </div>
           <h3 className="text-2xl font-black text-slate-900 dark:text-white mt-1.5">
-            {settings.companyFullName || "Alpharma Medical Hub"} Console
+            {settings.companyFullName || "Alpharma Medical Hub Nig Ltd"} Console
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Control branding, manage drugs catalog, monitor real-time visitor sessions, and tweak regional logistics.
@@ -1156,6 +1157,17 @@ export default function AdminPanel({
                     required
                     value={settingsForm.fullAddress}
                     onChange={(e) => setSettingsForm({ ...settingsForm, fullAddress: e.target.value })}
+                    className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-xs focus:ring-2 focus:ring-blue-500 outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Business Hours</label>
+                  <input
+                    type="text"
+                    required
+                    value={settingsForm.businessHours || ""}
+                    onChange={(e) => setSettingsForm({ ...settingsForm, businessHours: e.target.value })}
                     className="w-full px-3.5 py-2.5 border border-slate-200 dark:border-slate-800 rounded-xl bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 text-xs focus:ring-2 focus:ring-blue-500 outline-none"
                   />
                 </div>

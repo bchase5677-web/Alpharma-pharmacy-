@@ -26,9 +26,10 @@ export default function App() {
     websiteSubName: "Medical Hub",
     companyFullName: "Alpharma Medical Hub Nig Ltd",
     telephone: "+234 803 737 7762",
-    email: "contact@alpharma.com.ng",
-    address: "Samaru, Zaria, Kaduna State",
-    fullAddress: "Alpharma Medical Hub, Opp. Gidan Jaji, Samaru, Zaria, Kaduna State, Nigeria",
+    email: "alpharmamedicalhubngltd@gmail.com",
+    address: "Samaru, Zaria, Kaduna",
+    fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
+    businessHours: "8am to 10pm all days",
     whatsappNumber: "2348037377762",
     deliveryFee: 1500,
     consultationFee: 5000,
@@ -38,7 +39,7 @@ export default function App() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/settings');
+      const res = await fetch(window.location.origin + '/api/settings');
       if (res.ok) {
         const data = await res.json() as WebsiteSettings;
         if (data.logo && !data.logo.startsWith('data:')) {
@@ -49,12 +50,15 @@ export default function App() {
       }
     } catch (err) {
       console.error('Failed to fetch website settings:', err);
+      if (err instanceof Error) {
+        console.error('Settings Error Details:', err.name, err.message, err.stack);
+      }
     }
   };
 
   const handleUpdateSettings = async (newSettings: WebsiteSettings) => {
     try {
-      const res = await fetch('/api/settings', {
+      const res = await fetch(window.location.origin + '/api/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSettings)
@@ -72,7 +76,7 @@ export default function App() {
 
   const logEvent = async (type: string, message: string) => {
     try {
-      await fetch('/api/logs', {
+      await fetch(window.location.origin + '/api/logs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, message })
@@ -90,13 +94,16 @@ export default function App() {
   const fetchProducts = async () => {
     setIsLoadingProducts(true);
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch(window.location.origin + '/api/products');
       if (res.ok) {
         const data = await res.json();
         setProducts(data);
       }
     } catch (err) {
       console.error('Failed to load dynamic inventory from terminal server:', err);
+      if (err instanceof Error) {
+        console.error('Error Details:', err.name, err.message, err.stack);
+      }
     } finally {
       setIsLoadingProducts(false);
     }
@@ -115,6 +122,27 @@ export default function App() {
           data.logo = `${data.logo}${separator}cb=${Date.now()}`;
         }
         setSettings(data);
+        
+        try {
+          // Update document title and icons dynamically for PWA
+          document.title = data.companyFullName || "Alpharma Medical Hub Nig Ltd";
+          if (data.logo) {
+            let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
+            if (!link) {
+              link = document.createElement('link');
+              link.rel = 'icon';
+              document.head.appendChild(link);
+            }
+            link.href = data.logo;
+
+            let appleIcon = document.querySelector("link[rel='apple-touch-icon']") as HTMLLinkElement;
+            if (appleIcon) {
+              appleIcon.href = data.logo;
+            }
+          }
+        } catch (domErr) {
+          console.error("DOM update error:", domErr);
+        }
       } else {
         fetchSettings(); // Fallback if document is not seeded yet
       }
@@ -165,7 +193,7 @@ export default function App() {
   // CRUD API Handlers for Admin Panel
   const handleAddProduct = async (newProduct: Omit<Product, 'id'>) => {
     try {
-      const res = await fetch('/api/products', {
+      const res = await fetch(window.location.origin + '/api/products', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newProduct)
@@ -183,7 +211,7 @@ export default function App() {
 
   const handleEditProduct = async (id: string, updatedFields: Partial<Product>) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(window.location.origin + `/api/products/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFields)
@@ -201,7 +229,7 @@ export default function App() {
 
   const handleDeleteProduct = async (id: string) => {
     try {
-      const res = await fetch(`/api/products/${id}`, {
+      const res = await fetch(window.location.origin + `/api/products/${id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -316,7 +344,7 @@ export default function App() {
 
   // Direct WhatsApp order dispatcher for a single product
   const handleOrderViaWhatsApp = (product: Product) => {
-    const message = `Hello Alpharma Medical Hub,\nI would like to order: *${product.name}*\nCategory: ${product.category}\nPrice: ₦${product.price.toLocaleString()}\n\nPlease verify availability and guide me through the delivery options in Zaria/Kaduna.`;
+    const message = `Hello Alpharma Medical Hub Nig Ltd,\nI would like to order: *${product.name}*\nCategory: ${product.category}\nPrice: ₦${product.price.toLocaleString()}\n\nPlease verify availability and guide me through the delivery options in Zaria/Kaduna.`;
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/2348037377762?text=${encoded}`, '_blank');
   };
@@ -608,7 +636,7 @@ export default function App() {
             {/* Why Choose Us */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white dark:bg-slate-900/40 rounded-3xl p-8 sm:p-12 border border-slate-100 dark:border-slate-800 transition-colors">
               <div className="text-center max-w-2xl mx-auto mb-10">
-                <h3 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Why Choose Alpharma Medical Hub?</h3>
+                <h3 className="text-2xl font-bold tracking-tight text-slate-950 dark:text-white">Why Choose Alpharma Medical Hub Nig Ltd?</h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Providing trusted medical equipment and health supplies under strict regulatory standards</p>
               </div>
 
@@ -1230,7 +1258,7 @@ export default function App() {
                       <Calendar className="text-emerald-500 shrink-0" size={16} />
                       <div>
                         <strong className="block text-slate-800 dark:text-slate-200">Business Hours</strong>
-                        <span>Monday – Saturday: 8:00 AM – 9:00 PM <br /> Sunday: 2:00 PM – 8:00 PM (Emergency Dispatch Active)</span>
+                        <span>{settings.businessHours}</span>
                       </div>
                     </div>
 

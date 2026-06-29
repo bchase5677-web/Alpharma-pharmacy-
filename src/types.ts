@@ -49,6 +49,7 @@ export interface WebsiteSettings {
   email: string;
   address: string;
   fullAddress: string;
+  businessHours: string;
   whatsappNumber: string;
   deliveryFee: number;
   consultationFee: number;
