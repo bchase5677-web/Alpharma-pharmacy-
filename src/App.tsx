@@ -68,10 +68,11 @@ export default function App() {
         setSettings(newSettings);
         return true;
       }
-      return false;
-    } catch (err) {
+      const errData = await res.json().catch(() => ({}));
+      throw new Error(errData.error || "Server returned status " + res.status);
+    } catch (err: any) {
       console.error('Failed to update settings:', err);
-      return false;
+      throw err;
     }
   };
 

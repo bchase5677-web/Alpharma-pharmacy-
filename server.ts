@@ -516,6 +516,7 @@ app.get("/api/settings", (req, res) => {
 
 // Update website configuration settings
 app.put("/api/settings", async (req, res) => {
+  console.log("PUT /api/settings hit. Body size:", JSON.stringify(req.body).length);
   try {
     const updatedSettings = req.body;
     saveSettings(updatedSettings);
@@ -524,8 +525,10 @@ app.put("/api/settings", async (req, res) => {
     await setDoc(doc(db, "settings", "config"), updatedSettings);
 
     addLog("system", "Website information & parameters updated dynamically from secure terminal");
+    console.log("Successfully saved settings to Firestore.");
     res.json(updatedSettings);
   } catch (error: any) {
+    console.error("Error saving settings:", error);
     res.status(500).json({ error: error.message || "Failed to save settings" });
   }
 });

@@ -402,10 +402,10 @@ export default function AdminPanel({
         fetchStats();
         setTimeout(() => setSuccessMessage(''), 3000);
       } else {
-        setSubmitError('Failed to save settings on the terminal server.');
+        setSubmitError('The server rejected the update. (Returned false)');
       }
     } catch (err: any) {
-      setSubmitError(err.message || 'Error saving settings.');
+      setSubmitError('Detailed Server Error: ' + (err.message || 'Error saving settings.'));
     } finally {
       setIsSubmitting(false);
     }
