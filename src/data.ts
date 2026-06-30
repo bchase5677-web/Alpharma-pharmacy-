@@ -214,10 +214,10 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "1",
     name: "Alhaji Ibrahim Musa",
-    role: "Community Leader, Zaria",
+    role: "Community Leader, Kaduna",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
     rating: 5,
-    comment: "Alpharma Medical Hub Nig Ltd is the best pharmacy in Samaru! Their prices are very fair, and their drugs are always genuine. The free medical consultation advice on their AI and WhatsApp is super helpful.",
+    comment: "Alpharma Medical Hub Nig Ltd is the best pharmacy in Kaduna! Their prices are very fair, and their drugs are always genuine. The free medical consultation advice on their AI and WhatsApp is super helpful.",
     date: "June 12, 2026"
   },
   {
@@ -232,7 +232,7 @@ export const TESTIMONIALS: Testimonial[] = [
   {
     id: "3",
     name: "Mrs. Funmi Adebayo",
-    role: "Mother of Two, Samaru",
+    role: "Mother of Two, Kaduna",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
     rating: 5,
     comment: "I always order my baby formula, vitamins, and mother-care supplements from Alpharma Medical Hub Nig Ltd. The WhatsApp ordering is extremely fast. They delivered my items directly to my doorstep within 2 hours!",
@@ -267,12 +267,12 @@ export const SERVICES = [
   },
   {
     title: "Home & Clinic Delivery",
-    description: "Swift dispatch riders deliver medications, health supplies, and diagnostic systems right to your residence or clinic in Kaduna, Zaria, and nationwide.",
+    description: "Swift dispatch riders deliver medications, health supplies, and diagnostic systems right to your residence or clinic in Kaduna and nationwide.",
     icon: "Truck"
   },
   {
     title: "Diagnostic Checkups",
-    description: "Visit our hub in Samaru for free quick diagnostic checks, including Blood Pressure tracking, blood sugar readings, and BMI analysis.",
+    description: "Visit our hub in Kaduna for free quick diagnostic checks, including Blood Pressure tracking, blood sugar readings, and BMI analysis.",
     icon: "HeartPulse"
   },
   {

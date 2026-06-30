@@ -304,7 +304,7 @@ export default function Cart({
                 </div>
                 {deliveryMethod === 'delivery' && (
                   <div className="flex justify-between text-slate-500 dark:text-slate-400">
-                    <span>Delivery Fee (Zaria / Kaduna)</span>
+                    <span>Delivery Fee (Kaduna)</span>
                     <span className="font-semibold text-slate-800 dark:text-slate-200">₦{deliveryFee.toLocaleString()}</span>
                   </div>
                 )}

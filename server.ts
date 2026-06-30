@@ -32,6 +32,7 @@ const db = getFirestore(firebaseApp, "ai-studio-alpharmamedicalh-3f0f7d08-c1d5-4
 
 // Helper to wrap firestore promises with a strict timeout to ensure offline resilience
 const runWithTimeout = <T>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  promise.catch(() => {}); // Prevent unhandled promise rejection if it fails after timeout
   return Promise.race([
     promise,
     new Promise<never>((_, reject) =>
@@ -230,9 +231,9 @@ const DEFAULT_SETTINGS = {
   companyFullName: "Alpharma Medical Hub Nig Ltd",
   telephone: "+234 803 737 7762",
   email: "alpharmamedicalhubngltd@gmail.com",
-  address: "Samaru, Zaria, Kaduna",
-  fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
-  businessHours: "8am to 10pm all days",
+  address: "Kaduna",
+  fullAddress: "Kaduna, Nigeria",
+  businessHours: "9am - 10pm all the days",
   whatsappNumber: "2348037377762",
   deliveryFee: 1500,
   consultationFee: 5000,
@@ -320,7 +321,7 @@ onSnapshot(productsCollRef, (snapshot) => {
 // In-memory visitor analytics and dynamic activity logging
 let activityLogs: any[] = [
   { id: "1", type: "system", message: "Server initialized successfully", timestamp: new Date(Date.now() - 3600000).toISOString() },
-  { id: "2", type: "visitor", message: "New visitor arrived from Zaria Terminal 1", timestamp: new Date(Date.now() - 1800000).toISOString() },
+  { id: "2", type: "visitor", message: "New visitor arrived from Kaduna Terminal 1", timestamp: new Date(Date.now() - 1800000).toISOString() },
   { id: "3", type: "visitor", message: "New visitor arrived from Kaduna Node", timestamp: new Date(Date.now() - 900000).toISOString() }
 ];
 
@@ -373,7 +374,7 @@ app.post("/api/chat", async (req, res) => {
     const currentProducts = loadProducts();
     const currentSettings = loadSettings();
 
-    const systemInstruction = `You are a highly professional, caring, and intelligent medical and pharmacy AI customer support assistant for **${currentSettings.companyFullName || "Alpharma Medical Hub Nig Ltd"}**, located in ${currentSettings.address || "Samaru, Zaria, Kaduna State, Nigeria"}.
+    const systemInstruction = `You are a highly professional, caring, and intelligent medical and pharmacy AI customer support assistant for **${currentSettings.companyFullName || "Alpharma Medical Hub Nig Ltd"}**, located in ${currentSettings.address || "Kaduna, Nigeria"}.
  
 Contact Details:
 - Business Name: ${currentSettings.companyFullName}

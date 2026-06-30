@@ -43,13 +43,13 @@ export default function AccountModal({
     }
   };
 
-  // Mock Trackable orders for realistic Nig Ltd logistics in Zaria/Kaduna
+  // Mock Trackable orders for realistic Nig Ltd logistics in Kaduna
   const MOCK_ORDERS = [
     {
       id: "ALP-2026-9042",
       date: "June 24, 2026",
       status: "Dispatched",
-      deliveryAddress: "Samaru Main St, Zaria, Kaduna State",
+      deliveryAddress: "Main St, Kaduna State",
       items: "Omeprazole 20mg, Vitamin C 1000mg Effervescent",
       total: "₦4,300",
       steps: [
@@ -63,7 +63,7 @@ export default function AccountModal({
       id: "ALP-2026-8911",
       date: "May 29, 2026",
       status: "Delivered",
-      deliveryAddress: "General Hospital Rd, Zaria, Kaduna State",
+      deliveryAddress: "General Hospital Rd, Kaduna State",
       items: "Digital Blood Pressure Monitor, Amoxicillin 500mg",
       total: "₦26,700",
       steps: [

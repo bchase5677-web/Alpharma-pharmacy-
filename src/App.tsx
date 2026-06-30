@@ -28,9 +28,9 @@ export default function App() {
     companyFullName: "Alpharma Medical Hub Nig Ltd",
     telephone: "+234 803 737 7762",
     email: "alpharmamedicalhubngltd@gmail.com",
-    address: "Samaru, Zaria, Kaduna",
-    fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
-    businessHours: "8am to 10pm all days",
+    address: "Kaduna",
+    fullAddress: "Kaduna, Nigeria",
+    businessHours: "9am - 10pm all the days",
     whatsappNumber: "2348037377762",
     deliveryFee: 1500,
     consultationFee: 5000,
@@ -214,10 +214,11 @@ export default function App() {
         await fetchProducts();
         return true;
       }
-      return false;
-    } catch (err) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `Server responded with status: ${res.status}`);
+    } catch (err: any) {
       console.error('Failed to add product on server:', err);
-      return false;
+      throw err; // Propagate the error so AdminPanel can display it
     }
   };
 
@@ -232,10 +233,11 @@ export default function App() {
         await fetchProducts();
         return true;
       }
-      return false;
-    } catch (err) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `Server responded with status: ${res.status}`);
+    } catch (err: any) {
       console.error('Failed to update product on server:', err);
-      return false;
+      throw err;
     }
   };
 
@@ -248,10 +250,11 @@ export default function App() {
         await fetchProducts();
         return true;
       }
-      return false;
-    } catch (err) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(errorData.error || `Server responded with status: ${res.status}`);
+    } catch (err: any) {
       console.error('Failed to delete product on server:', err);
-      return false;
+      throw err;
     }
   };
   
@@ -356,7 +359,7 @@ export default function App() {
 
   // Direct WhatsApp order dispatcher for a single product
   const handleOrderViaWhatsApp = (product: Product) => {
-    const message = `Hello Alpharma Medical Hub Nig Ltd,\nI would like to order: *${product.name}*\nCategory: ${product.category}\nPrice: ₦${product.price.toLocaleString()}\n\nPlease verify availability and guide me through the delivery options in Zaria/Kaduna.`;
+    const message = `Hello Alpharma Medical Hub Nig Ltd,\nI would like to order: *${product.name}*\nCategory: ${product.category}\nPrice: ₦${product.price.toLocaleString()}\n\nPlease verify availability and guide me through the delivery options in Kaduna.`;
     const encoded = encodeURIComponent(message);
     window.open(`https://wa.me/2348037377762?text=${encoded}`, '_blank');
   };
@@ -469,7 +472,7 @@ export default function App() {
 
                   {/* Subheading */}
                   <p className="text-sm sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                    Providing quality medicines, healthcare products, medical equipment, and professional healthcare services with fast, reliable customer support. Based in Samaru, Zaria, delivering nationwide.
+                    Providing quality medicines, healthcare products, medical equipment, and professional healthcare services with fast, reliable customer support. Based in Kaduna, delivering nationwide.
                   </p>
 
                   {/* Smart Immediate Search Bar */}
@@ -533,7 +536,7 @@ export default function App() {
                 </div>
                 <div className="text-center p-2 md:border-r border-slate-100 dark:border-slate-800 last:border-0">
                   <span className="block text-3xl font-extrabold text-emerald-500">2 Hr</span>
-                  <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Zaria Delivery</span>
+                  <span className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Kaduna Delivery</span>
                 </div>
                 <div className="text-center p-2 border-r border-slate-100 dark:border-slate-800 last:border-0">
                   <span className="block text-3xl font-extrabold text-blue-600 dark:text-blue-400">5k+</span>
@@ -656,8 +659,8 @@ export default function App() {
                 {[
                   { title: "Genuine Products", desc: "No mock medicines or substandard items. Every drug and surgical device is direct from premium licensed manufacturers.", icon: "ShieldCheck" },
                   { title: "Affordable Prices", desc: "Competitive and transparent pricing designed to support local families, private clinics, and hospital budgets.", icon: "HeartPulse" },
-                  { title: "Professional Support", desc: "Access direct consultations with real certified pharmacists in Zaria and medical equipment troubleshooting.", icon: "User" },
-                  { title: "Fast Delivery", desc: "Dedicated dispatch riders shipping instantly in Zaria and fast courier shipping across Nigeria.", icon: "Activity" },
+                  { title: "Professional Support", desc: "Access direct consultations with real certified pharmacists in Kaduna and medical equipment troubleshooting.", icon: "User" },
+                  { title: "Fast Delivery", desc: "Dedicated dispatch riders shipping instantly in Kaduna and fast courier shipping across Nigeria.", icon: "Activity" },
                   { title: "Secure Payments", desc: "Direct secure bank transfers, payment on delivery (POD), and card gateways are fully supported.", icon: "CheckCircle2" },
                   { title: "Trusted Pharmacy", desc: "Fully registered and compliant corporate medical distributor serving individuals and businesses since inception.", icon: "Info" },
                   { title: "AI Customer Support", desc: "Instant help 24/7 with dosages, catalog searches, and seamless escalation to our human staff on WhatsApp.", icon: "Sparkles" },
@@ -1055,9 +1058,9 @@ export default function App() {
             {/* Quick Diagnostic Clinic Banner */}
             <div className="p-8 bg-gradient-to-tr from-emerald-600 to-blue-700 text-white rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 max-w-4xl mx-auto shadow-lg">
               <div className="space-y-2 text-center md:text-left">
-                <h4 className="text-lg sm:text-2xl font-extrabold">Visit our Diagnostic Checkup Hub in Zaria</h4>
+                <h4 className="text-lg sm:text-2xl font-extrabold">Visit our Diagnostic Checkup Hub in Kaduna</h4>
                 <p className="text-xs text-slate-200 max-w-md leading-relaxed">
-                  Drop by Samaru, Zaria for rapid testing. Our certified staff will check your Blood Pressure, Glucose levels, pulse rate, and temperature under strict medical supervision.
+                  Drop by Kaduna for rapid testing. Our certified staff will check your Blood Pressure, Glucose levels, pulse rate, and temperature under strict medical supervision.
                 </p>
               </div>
               <button
@@ -1089,7 +1092,7 @@ export default function App() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  Located strategically in <strong>Samaru, Zaria, Kaduna State, Nigeria</strong>, we service private family clinics, major public hospitals, schools, corporate health centers, and individual patients. We work with strict regulatory safeguards to ensure that every prescription, diagnostic device, and consumable meets strict global safety specifications.
+                  Located strategically in <strong>Kaduna State, Nigeria</strong>, we service private family clinics, major public hospitals, schools, corporate health centers, and individual patients. We work with strict regulatory safeguards to ensure that every prescription, diagnostic device, and consumable meets strict global safety specifications.
                 </p>
 
                 <div className="border-l-4 border-emerald-500 pl-4 py-1 bg-emerald-50/40 dark:bg-emerald-950/10">
@@ -1125,7 +1128,7 @@ export default function App() {
                 {[
                   { title: "Sourcing Integrity", desc: "We maintain direct procurement accounts with multinational manufacturing labs, ensuring that substandard or counterfeit pharmaceuticals never enter our supply channels." },
                   { title: "Empathetic Healthcare Support", desc: "Whether diagnosing BP anomalies with our meters or discussing prescription safety with our AI and licensed pharmacists, your wellness is our paramount focus." },
-                  { title: "Prompt Regional Logistics", desc: "Medicines are time-sensitive. We deploy rapid dispatch riders to Samaru, Zaria, and environs to ensure emergency products arrive safely on time." }
+                  { title: "Prompt Regional Logistics", desc: "Medicines are time-sensitive. We deploy rapid dispatch riders to Kaduna, and environs to ensure emergency products arrive safely on time." }
                 ].map((pillar, idx) => (
                   <div key={idx} className="p-5 bg-white dark:bg-slate-950 rounded-2xl border border-slate-100 dark:border-slate-800">
                     <span className="text-2xl font-bold text-blue-600 dark:text-blue-400">0{idx+1}</span>
@@ -1167,7 +1170,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in">
             <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
               <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Contact & Visit Our Hub</h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Reach out to our customer care team or consult with our samaru branch</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Reach out to our customer care team or consult with our Kaduna branch</p>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -1304,10 +1307,10 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Professional Map Section (interactive SVG map showing Samaru, Zaria) */}
+                {/* Professional Map Section (interactive SVG map showing Kaduna) */}
                 <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 space-y-3">
                   <div className="flex justify-between items-center">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Regional Samaru Location Map</h4>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Regional Kaduna Location Map</h4>
                     <span className="text-[9px] bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded font-bold">Kaduna State</span>
                   </div>
 
@@ -1331,10 +1334,10 @@ export default function App() {
                       <div className="w-1.5 h-full bg-slate-200 dark:bg-slate-800 -rotate-45 absolute" />
                       <div className="w-full h-1 bg-slate-200 dark:bg-slate-800 -rotate-12 absolute" />
                       
-                      {/* Samaru Zaria landmarks */}
-                      <span className="absolute top-6 left-12 text-[9px] text-slate-400 dark:text-slate-500 font-bold">ABU Main Campus Gate</span>
-                      <span className="absolute bottom-6 right-12 text-[9px] text-slate-400 dark:text-slate-500 font-bold">Samaru Market Rd</span>
-                      <span className="absolute top-1/2 left-1/4 text-[9px] text-slate-400 dark:text-slate-500 font-bold">Zaria-Kano Hwy</span>
+                      {/* Kaduna landmarks */}
+                      <span className="absolute top-6 left-12 text-[9px] text-slate-400 dark:text-slate-500 font-bold">Kaduna Central Gate</span>
+                      <span className="absolute bottom-6 right-12 text-[9px] text-slate-400 dark:text-slate-500 font-bold">Kaduna Market Rd</span>
+                      <span className="absolute top-1/2 left-1/4 text-[9px] text-slate-400 dark:text-slate-500 font-bold">Kaduna Hwy</span>
                     </div>
 
                     {/* Central Pulse Pin */}
@@ -1346,7 +1349,7 @@ export default function App() {
                       <span className="mt-1.5 px-2 py-0.5 bg-slate-900/90 text-white rounded text-[9px] font-bold whitespace-nowrap shadow border border-slate-800">
                         ALPHARMA MEDICAL HUB NIG LTD
                       </span>
-                      <span className="text-[8px] text-blue-600 dark:text-blue-400 font-bold mt-0.5">Samaru, Zaria</span>
+                      <span className="text-[8px] text-blue-600 dark:text-blue-400 font-bold mt-0.5">Kaduna</span>
                     </div>
 
                   </div>

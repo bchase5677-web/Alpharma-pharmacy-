@@ -420,9 +420,9 @@ export default function AdminPanel({
         companyFullName: "Alpharma Medical Hub Nig Ltd",
         telephone: "+234 803 737 7762",
         email: "alpharmamedicalhubngltd@gmail.com",
-        address: "Samaru, Zaria, Kaduna",
-        fullAddress: "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
-        businessHours: "8am to 10pm all days",
+        address: "Kaduna",
+        fullAddress: "Kaduna, Nigeria",
+        businessHours: "9am - 10pm all the days",
         whatsappNumber: "2348037377762",
         deliveryFee: 1500,
         consultationFee: 5000,
@@ -730,7 +730,7 @@ export default function AdminPanel({
                 </div>
 
                 <div className="flex justify-between items-center border-b border-slate-50 dark:border-slate-800 pb-2">
-                  <span className="font-semibold text-slate-400">Zaria Dispatch Node</span>
+                  <span className="font-semibold text-slate-400">Kaduna Dispatch Node</span>
                   <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-extrabold flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Connected
                   </span>
@@ -1199,7 +1199,7 @@ export default function AdminPanel({
               </h5>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Kaduna/Zaria Delivery Dispatch Fee (₦)</label>
+                  <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 block mb-1">Kaduna Delivery Dispatch Fee (₦)</label>
                   <input
                     type="number"
                     required

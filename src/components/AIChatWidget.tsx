@@ -31,7 +31,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
   const suggestedQuestions = [
     "What products do you have for Diabetes Care?",
     "Do you require a doctor prescription for antibiotics?",
-    "How fast is your medical delivery to Zaria or Kaduna?",
+    "How fast is your medical delivery to Kaduna?",
     "Do you stock digital Blood Pressure monitors?"
   ];
 
