@@ -23,7 +23,7 @@ async function testConnection() {
     console.log("Firebase Firestore connected successfully.");
   } catch (error) {
     if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration or network status.");
+      console.warn("Please check your Firebase configuration or network status (operating in resilient local-first mode).");
     } else {
       console.warn("Firestore test connection check warning (non-fatal):", error);
     }

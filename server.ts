@@ -30,6 +30,16 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp, "ai-studio-alpharmamedicalh-3f0f7d08-c1d5-4983-96f5-5c4c0d73879d");
 
+// Helper to wrap firestore promises with a strict timeout to ensure offline resilience
+const runWithTimeout = <T>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  return Promise.race([
+    promise,
+    new Promise<never>((_, reject) =>
+      setTimeout(() => reject(new Error("Firestore database connection timed out")), timeoutMs)
+    )
+  ]);
+};
+
 const app = express();
 // Increase body-parser limits for Base64 image upload strings
 app.use(express.json({ limit: "50mb" }));
@@ -438,9 +448,13 @@ app.post("/api/products", async (req, res) => {
     products.push(product);
     saveProducts(products);
 
-    // Save to Firestore
+    // Save to Firestore (resilient fallback with timeout)
     const { id, ...data } = product;
-    await setDoc(doc(db, "products", productId), data);
+    try {
+      await runWithTimeout(setDoc(doc(db, "products", productId), data), 1500);
+    } catch (err: any) {
+      console.warn("Firestore products sync warning (non-blocking):", err.message);
+    }
 
     res.status(201).json(product);
   } catch (error: any) {
@@ -476,9 +490,13 @@ app.put("/api/products/:id", async (req, res) => {
     products[index] = updatedProduct;
     saveProducts(products);
 
-    // Write updates to Firestore
+    // Write updates to Firestore (resilient fallback with timeout)
     const { id, ...data } = updatedProduct;
-    await setDoc(doc(db, "products", productId), data, { merge: true });
+    try {
+      await runWithTimeout(setDoc(doc(db, "products", productId), data, { merge: true }), 1500);
+    } catch (err: any) {
+      console.warn("Firestore product edit sync warning (non-blocking):", err.message);
+    }
 
     res.json(updatedProduct);
   } catch (error: any) {
@@ -499,8 +517,12 @@ app.delete("/api/products/:id", async (req, res) => {
 
     saveProducts(filtered);
 
-    // Delete from Firestore
-    await deleteDoc(doc(db, "products", productId));
+    // Delete from Firestore (resilient fallback with timeout)
+    try {
+      await runWithTimeout(deleteDoc(doc(db, "products", productId)), 1500);
+    } catch (err: any) {
+      console.warn("Firestore product delete sync warning (non-blocking):", err.message);
+    }
 
     res.json({ success: true, message: "Product deleted successfully" });
   } catch (error: any) {
@@ -521,11 +543,15 @@ app.put("/api/settings", async (req, res) => {
     const updatedSettings = req.body;
     saveSettings(updatedSettings);
     
-    // Save to Firestore config document
-    await setDoc(doc(db, "settings", "config"), updatedSettings);
+    // Save to Firestore config document (resilient fallback with timeout)
+    try {
+      await runWithTimeout(setDoc(doc(db, "settings", "config"), updatedSettings), 1500);
+      console.log("Successfully saved settings to Firestore.");
+    } catch (err: any) {
+      console.warn("Firestore settings sync warning (non-blocking):", err.message);
+    }
 
     addLog("system", "Website information & parameters updated dynamically from secure terminal");
-    console.log("Successfully saved settings to Firestore.");
     res.json(updatedSettings);
   } catch (error: any) {
     console.error("Error saving settings:", error);
