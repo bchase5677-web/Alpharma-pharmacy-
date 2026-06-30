@@ -68,7 +68,7 @@ export default function InstallPWA() {
               <Download size={18} />
             </div>
             <div className="flex flex-col">
-              <span className="font-bold text-base leading-tight">Install Alpharmamed.co</span>
+              <span className="font-bold text-base leading-tight">Install Alpharma Medical Hub Nig Ltd</span>
               <span className="text-blue-100 text-xs">For a faster, offline native experience</span>
             </div>
           </div>

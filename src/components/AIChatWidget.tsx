@@ -145,7 +145,7 @@ export default function AIChatWidget({ isEmbed = false, onNavigate }: AIChatWidg
           </div>
           <div>
             <h3 className="text-xs font-bold flex items-center gap-1">
-              Alpharma AI Assistant <Sparkles size={11} className="text-amber-300" />
+              Alpharma Medical Hub Nig Ltd AI Assistant <Sparkles size={11} className="text-amber-300" />
             </h3>
             <p className="text-[10px] text-teal-100 font-medium">Licensed Pharmacist Co-Pilot • Online</p>
           </div>

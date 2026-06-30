@@ -23,8 +23,8 @@ export default function App() {
   
   // Real-time Dynamic Website Settings State
   const [settings, setSettings] = useState<WebsiteSettings>({
-    websiteName: "Alpharma",
-    websiteSubName: "Medical Hub",
+    websiteName: "Alpharma Medical Hub Nig Ltd",
+    websiteSubName: "",
     companyFullName: "Alpharma Medical Hub Nig Ltd",
     telephone: "+234 803 737 7762",
     email: "alpharmamedicalhubngltd@gmail.com",
@@ -112,7 +112,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    logEvent('page_view', 'A new user connected to the Alpharma Medical Hub main portal');
+    logEvent('page_view', 'A new user connected to the Alpharma Medical Hub Nig Ltd main portal');
 
     // 1. Subscribe to Real-Time Settings from Firestore
     const unsubscribeSettings = onSnapshot(doc(db, "settings", "config"), (snapshot) => {
@@ -697,7 +697,7 @@ export default function App() {
             {/* Newsletter Subscription */}
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="bg-blue-600 dark:bg-blue-900 text-white p-8 sm:p-12 rounded-3xl text-center space-y-4 max-w-4xl mx-auto shadow-xl">
-                <h3 className="text-xl sm:text-3xl font-extrabold">Stay Informed with Alpharma Health Alerts</h3>
+                <h3 className="text-xl sm:text-3xl font-extrabold">Stay Informed with Alpharma Medical Hub Nig Ltd Health Alerts</h3>
                 <p className="text-xs sm:text-sm text-blue-100 max-w-lg mx-auto">
                   Subscribe to receive safety updates, new clinical machinery stock notifications, and pharmacy tips in Nigeria.
                 </p>
@@ -1031,7 +1031,7 @@ export default function App() {
                   
                   <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800">
                     <a
-                      href={`https://wa.me/2348037377762?text=Hello%20Alpharma%20Medical%20Hub,%20I%20am%20interested%20in%20your%20services%20regarding%20${encodeURIComponent(serv.title)}`}
+                      href={`https://wa.me/2348037377762?text=Hello%20Alpharma%20Medical%20Hub%20Nig%20Ltd,%20I%20am%20interested%20in%20your%20services%20regarding%20${encodeURIComponent(serv.title)}`}
                       target="_blank"
                       className="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1"
                     >
@@ -1133,7 +1133,7 @@ export default function App() {
         {activeTab === 'ai-assistant' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
             <div className="text-center max-w-2xl mx-auto space-y-2">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Ask Alpharma AI Doctor Co-pilot</h3>
+              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Ask Alpharma Medical Hub Nig Ltd AI Doctor Co-pilot</h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
                 Check active medicine inventories, receive drug dosing explanations, verify shipping options, or connect instantly to a human medical expert.
               </p>
@@ -1146,7 +1146,7 @@ export default function App() {
             <div className="max-w-3xl mx-auto p-4 bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 rounded-2xl flex gap-3 text-xs leading-relaxed text-slate-600 dark:text-slate-400">
               <Info className="text-amber-600 shrink-0 mt-0.5" size={16} />
               <div>
-                <strong className="text-slate-800 dark:text-slate-200">Important Medical Disclaimer:</strong> Alpharma AI Assistant is a digital support companion programmed to assist with pharmaceutical details, general health FAQs, and ordering. It does not replace the professional diagnostic decisions of a physical clinical practitioner. Always consult a physician or our licensed staff pharmacists on WhatsApp (+2348037377762) for prescription validation or diagnostic health concerns.
+                <strong className="text-slate-800 dark:text-slate-200">Important Medical Disclaimer:</strong> Alpharma Medical Hub Nig Ltd AI Assistant is a digital support companion programmed to assist with pharmaceutical details, general health FAQs, and ordering. It does not replace the professional diagnostic decisions of a physical clinical practitioner. Always consult a physician or our licensed staff pharmacists on WhatsApp (+2348037377762) for prescription validation or diagnostic health concerns.
               </div>
             </div>
           </div>
@@ -1334,7 +1334,7 @@ export default function App() {
                         H
                       </div>
                       <span className="mt-1.5 px-2 py-0.5 bg-slate-900/90 text-white rounded text-[9px] font-bold whitespace-nowrap shadow border border-slate-800">
-                        ALPHARMA MEDICAL HUB
+                        ALPHARMA MEDICAL HUB NIG LTD
                       </span>
                       <span className="text-[8px] text-blue-600 dark:text-blue-400 font-bold mt-0.5">Samaru, Zaria</span>
                     </div>

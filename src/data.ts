@@ -217,7 +217,7 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Community Leader, Zaria",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
     rating: 5,
-    comment: "Alpharma Medical Hub is the best pharmacy in Samaru! Their prices are very fair, and their drugs are always genuine. The free medical consultation advice on their AI and WhatsApp is super helpful.",
+    comment: "Alpharma Medical Hub Nig Ltd is the best pharmacy in Samaru! Their prices are very fair, and their drugs are always genuine. The free medical consultation advice on their AI and WhatsApp is super helpful.",
     date: "June 12, 2026"
   },
   {
@@ -226,7 +226,7 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Clinical Director, Kaduna",
     avatar: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=150&auto=format&fit=crop&q=80",
     rating: 5,
-    comment: "As a doctor, I recommend Alpharma to our local clinics and hospitals in Kaduna State. Their surgical equipment and hospital supplies are of impeccable quality, and their delivery to our premises is always fast and secure.",
+    comment: "As a doctor, I recommend Alpharma Medical Hub Nig Ltd to our local clinics and hospitals in Kaduna State. Their surgical equipment and hospital supplies are of impeccable quality, and their delivery to our premises is always fast and secure.",
     date: "May 29, 2026"
   },
   {
@@ -235,7 +235,7 @@ export const TESTIMONIALS: Testimonial[] = [
     role: "Mother of Two, Samaru",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
     rating: 5,
-    comment: "I always order my baby formula, vitamins, and mother-care supplements from Alpharma. The WhatsApp ordering is extremely fast. They delivered my items directly to my doorstep within 2 hours!",
+    comment: "I always order my baby formula, vitamins, and mother-care supplements from Alpharma Medical Hub Nig Ltd. The WhatsApp ordering is extremely fast. They delivered my items directly to my doorstep within 2 hours!",
     date: "June 18, 2026"
   },
   {

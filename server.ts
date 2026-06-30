@@ -215,8 +215,8 @@ function saveProducts(products: any[]) {
 const SETTINGS_FILE_PATH = path.join(process.cwd(), "settings_db.json");
 
 const DEFAULT_SETTINGS = {
-  websiteName: "Alpharma",
-  websiteSubName: "Medical Hub",
+  websiteName: "Alpharma Medical Hub Nig Ltd",
+  websiteSubName: "",
   companyFullName: "Alpharma Medical Hub Nig Ltd",
   telephone: "+234 803 737 7762",
   email: "alpharmamedicalhubngltd@gmail.com",

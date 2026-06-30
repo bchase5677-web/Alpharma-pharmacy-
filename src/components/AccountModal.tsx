@@ -113,7 +113,7 @@ export default function AccountModal({
                 <div>
                   <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200">{username}</h3>
                   <p className="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1 mt-0.5">
-                    <ShieldCheck size={12} /> Verified Patient Member • Alpharma Hub
+                    <ShieldCheck size={12} /> Verified Patient Member • Alpharma Medical Hub Nig Ltd
                   </p>
                 </div>
               </div>

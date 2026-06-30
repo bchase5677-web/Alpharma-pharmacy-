@@ -413,10 +413,10 @@ export default function AdminPanel({
 
   // Restore Default Settings
   const handleRestoreDefaults = () => {
-    if (window.confirm('Are you sure you want to reset all configurations to standard Alpharma Kaduna/Zaria presets?')) {
+    if (window.confirm('Are you sure you want to reset all configurations to standard Alpharma Medical Hub Nig Ltd presets?')) {
       setSettingsForm({
-        websiteName: "Alpharma",
-        websiteSubName: "Medical Hub",
+        websiteName: "Alpharma Medical Hub Nig Ltd",
+        websiteSubName: "",
         companyFullName: "Alpharma Medical Hub Nig Ltd",
         telephone: "+234 803 737 7762",
         email: "alpharmamedicalhubngltd@gmail.com",

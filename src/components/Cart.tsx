@@ -50,7 +50,7 @@ export default function Cart({
     }
 
     // Format perfect Nigerian-optimized order text for WhatsApp
-    let orderText = `*${(settings.companyFullName || "ALPHARMA MEDICAL HUB").toUpperCase()} - NEW ORDER*\n`;
+    let orderText = `*${(settings.companyFullName || "ALPHARMA MEDICAL HUB NIG LTD").toUpperCase()} - NEW ORDER*\n`;
     orderText += `--------------------------------------\n`;
     orderText += `*Customer Details:*\n`;
     orderText += `• Name: ${customerName}\n`;

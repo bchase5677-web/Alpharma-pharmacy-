@@ -83,11 +83,10 @@ export default function Header({
                 Α
               </div>
               <div className="flex flex-col">
-                <h1 className="text-lg font-bold leading-none tracking-tight flex items-center gap-1">
+                <h1 className="text-lg font-bold leading-none tracking-tight flex flex-wrap items-center gap-1 max-w-[200px] sm:max-w-xs">
                   <span className="text-blue-600 dark:text-blue-400">{settings.websiteName}</span>
-                  <span className="text-emerald-500">{settings.websiteSubName}</span>
+                  {settings.websiteSubName && <span className="text-emerald-500">{settings.websiteSubName}</span>}
                 </h1>
-                <span className="text-[10px] text-slate-500 dark:text-slate-400 tracking-wider uppercase font-semibold">Hub</span>
               </div>
             </>
           )}

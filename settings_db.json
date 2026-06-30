@@ -1,15 +1,15 @@
 {
-  "telephone": "+234 803 737 7762",
-  "websiteSubName": "Medical Hub",
-  "address": "Samaru, Zaria, Kaduna",
-  "businessHours": "8am to 10pm all days",
   "fullAddress": "No.3 Bomo Street opposite yardorawa Samaru, Zaria, Kaduna",
-  "whatsappNumber": "2348037377762",
   "email": "alpharmamedicalhubngltd@gmail.com",
-  "allowPrescriptionRequires": true,
-  "websiteName": "Alpharma",
-  "maintenanceMode": false,
+  "deliveryFee": 1500,
+  "businessHours": "8am to 10pm all days",
   "companyFullName": "Alpharma Medical Hub Nig Ltd",
+  "allowPrescriptionRequires": true,
+  "websiteName": "Alpharma Medical Hub Nig Ltd",
+  "address": "Samaru, Zaria, Kaduna",
   "consultationFee": 5000,
-  "deliveryFee": 1500
+  "websiteSubName": "",
+  "whatsappNumber": "2348037377762",
+  "maintenanceMode": false,
+  "telephone": "+234 803 737 7762"
 }
