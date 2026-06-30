@@ -62,7 +62,7 @@ export default function Header({
         </div>
         <div className="hidden sm:flex items-center gap-4">
           <span>📍 {settings.address}</span>
-          <span className="bg-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Nigeria-Optimized 🇳🇬</span>
+          <span className="bg-emerald-500/30 px-2 py-0.5 rounded text-[10px] font-bold">Kaduna-Optimized</span>
         </div>
       </div>
 

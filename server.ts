@@ -232,7 +232,7 @@ const DEFAULT_SETTINGS = {
   telephone: "+234 803 737 7762",
   email: "alpharmamedicalhubngltd@gmail.com",
   address: "Kaduna",
-  fullAddress: "Kaduna, Nigeria",
+  fullAddress: "Kaduna State",
   businessHours: "9am - 10pm all the days",
   whatsappNumber: "2348037377762",
   deliveryFee: 1500,
@@ -374,7 +374,7 @@ app.post("/api/chat", async (req, res) => {
     const currentProducts = loadProducts();
     const currentSettings = loadSettings();
 
-    const systemInstruction = `You are a highly professional, caring, and intelligent medical and pharmacy AI customer support assistant for **${currentSettings.companyFullName || "Alpharma Medical Hub Nig Ltd"}**, located in ${currentSettings.address || "Kaduna, Nigeria"}.
+    const systemInstruction = `You are a highly professional, caring, and intelligent medical and pharmacy AI customer support assistant for **${currentSettings.companyFullName || "Alpharma Medical Hub Nig Ltd"}**, located in ${currentSettings.address || "Kaduna State"}.
  
 Contact Details:
 - Business Name: ${currentSettings.companyFullName}
@@ -384,12 +384,12 @@ Contact Details:
 
 Our Services & Scope:
 - We provide high-quality prescription medicines, OTC medications, medical equipment, hospital supplies, surgical equipment, diabetes/BP monitors, first aid kits, baby care, vitamins, and supplements.
-- We support individuals, private clinics, public hospitals, and businesses across Nigeria.
+- We support individuals, private clinics, public hospitals, and businesses across Kaduna State.
 - We offer fast delivery across our operating region with a standard fee of ₦${(currentSettings.deliveryFee || 1500).toLocaleString()}.
 - Secure payments are supported via bank transfers and card payments.
 
 Your goals:
-1. Welcoming visitors warmly with Nigerian hospital hospitality.
+1. Welcoming visitors warmly with local hospital hospitality.
 2. Answering general health, medical equipment, and drug-usage queries scientifically and safely, but with a friendly tone.
 3. Helping users find products. Our main product catalog has:
 ${currentProducts.map(p => `- ${p.name} (${p.category}) - ₦${p.price.toLocaleString()} (${p.availability})`).join("\n")}

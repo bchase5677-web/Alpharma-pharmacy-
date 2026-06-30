@@ -267,7 +267,7 @@ export const SERVICES = [
   },
   {
     title: "Home & Clinic Delivery",
-    description: "Swift dispatch riders deliver medications, health supplies, and diagnostic systems right to your residence or clinic in Kaduna and nationwide.",
+    description: "Swift dispatch riders deliver medications, health supplies, and diagnostic systems right to your residence or clinic in Kaduna and across Kaduna State.",
     icon: "Truck"
   },
   {

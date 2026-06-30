@@ -421,7 +421,7 @@ export default function AdminPanel({
         telephone: "+234 803 737 7762",
         email: "alpharmamedicalhubngltd@gmail.com",
         address: "Kaduna",
-        fullAddress: "Kaduna, Nigeria",
+        fullAddress: "Kaduna State",
         businessHours: "9am - 10pm all the days",
         whatsappNumber: "2348037377762",
         deliveryFee: 1500,

@@ -29,7 +29,7 @@ export default function App() {
     telephone: "+234 803 737 7762",
     email: "alpharmamedicalhubngltd@gmail.com",
     address: "Kaduna",
-    fullAddress: "Kaduna, Nigeria",
+    fullAddress: "Kaduna State",
     businessHours: "9am - 10pm all the days",
     whatsappNumber: "2348037377762",
     deliveryFee: 1500,
@@ -467,12 +467,12 @@ export default function App() {
                     Your Trusted Medical & <br />
                     <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-300 via-emerald-300 to-blue-300">
                       Pharmacy Partner
-                    </span> in Nigeria
+                    </span> in Kaduna State
                   </h2>
 
                   {/* Subheading */}
                   <p className="text-sm sm:text-lg text-slate-300 leading-relaxed max-w-2xl">
-                    Providing quality medicines, healthcare products, medical equipment, and professional healthcare services with fast, reliable customer support. Based in Kaduna, delivering nationwide.
+                    Providing quality medicines, healthcare products, medical equipment, and professional healthcare services with fast, reliable customer support. Based in Kaduna, delivering across Kaduna State.
                   </p>
 
                   {/* Smart Immediate Search Bar */}
@@ -660,7 +660,7 @@ export default function App() {
                   { title: "Genuine Products", desc: "No mock medicines or substandard items. Every drug and surgical device is direct from premium licensed manufacturers.", icon: "ShieldCheck" },
                   { title: "Affordable Prices", desc: "Competitive and transparent pricing designed to support local families, private clinics, and hospital budgets.", icon: "HeartPulse" },
                   { title: "Professional Support", desc: "Access direct consultations with real certified pharmacists in Kaduna and medical equipment troubleshooting.", icon: "User" },
-                  { title: "Fast Delivery", desc: "Dedicated dispatch riders shipping instantly in Kaduna and fast courier shipping across Nigeria.", icon: "Activity" },
+                  { title: "Fast Delivery", desc: "Dedicated dispatch riders shipping instantly in Kaduna and fast courier shipping across Kaduna State.", icon: "Activity" },
                   { title: "Secure Payments", desc: "Direct secure bank transfers, payment on delivery (POD), and card gateways are fully supported.", icon: "CheckCircle2" },
                   { title: "Trusted Pharmacy", desc: "Fully registered and compliant corporate medical distributor serving individuals and businesses since inception.", icon: "Info" },
                   { title: "AI Customer Support", desc: "Instant help 24/7 with dosages, catalog searches, and seamless escalation to our human staff on WhatsApp.", icon: "Sparkles" },
@@ -712,7 +712,7 @@ export default function App() {
               <div className="bg-blue-600 dark:bg-blue-900 text-white p-8 sm:p-12 rounded-3xl text-center space-y-4 max-w-4xl mx-auto shadow-xl">
                 <h3 className="text-xl sm:text-3xl font-extrabold">Stay Informed with Alpharma Medical Hub Nig Ltd Health Alerts</h3>
                 <p className="text-xs sm:text-sm text-blue-100 max-w-lg mx-auto">
-                  Subscribe to receive safety updates, new clinical machinery stock notifications, and pharmacy tips in Nigeria.
+                  Subscribe to receive safety updates, new clinical machinery stock notifications, and pharmacy tips in Kaduna State.
                 </p>
 
                 {newsletterSubscribed ? (
@@ -963,7 +963,7 @@ export default function App() {
             <div className="p-8 bg-slate-900 text-white rounded-3xl text-center space-y-4 max-w-4xl mx-auto">
               <h4 className="text-lg sm:text-2xl font-extrabold">Need Custom Clinic Setup or Bulk Equipment?</h4>
               <p className="text-xs text-slate-300 max-w-lg mx-auto leading-relaxed">
-                We supply autoclave sterilizers, examination couches, diagnostic screens, and dental chairs to general clinics, hospitals, and NGOs across Nigeria. Let us provide a professional quotation.
+                We supply autoclave sterilizers, examination couches, diagnostic screens, and dental chairs to general clinics, hospitals, and NGOs across Kaduna State. Let us provide a professional quotation.
               </p>
               <div className="flex justify-center gap-3 pt-2">
                 <button
@@ -1092,13 +1092,13 @@ export default function App() {
                 </p>
 
                 <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  Located strategically in <strong>Kaduna State, Nigeria</strong>, we service private family clinics, major public hospitals, schools, corporate health centers, and individual patients. We work with strict regulatory safeguards to ensure that every prescription, diagnostic device, and consumable meets strict global safety specifications.
+                  Located strategically in <strong>Kaduna State</strong>, we service private family clinics, major public hospitals, schools, corporate health centers, and individual patients. We work with strict regulatory safeguards to ensure that every prescription, diagnostic device, and consumable meets strict global safety specifications.
                 </p>
 
                 <div className="border-l-4 border-emerald-500 pl-4 py-1 bg-emerald-50/40 dark:bg-emerald-950/10">
                   <span className="block text-xs font-extrabold text-slate-900 dark:text-slate-100">Our Sacred Mission</span>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed mt-0.5">
-                    To make critical, life-saving medicines and modern diagnostic electronics accessible, affordable, and readily available across Kaduna State and the entire federal territory.
+                    To make critical, life-saving medicines and modern diagnostic electronics accessible, affordable, and readily available across Kaduna State.
                   </p>
                 </div>
               </div>
@@ -1403,7 +1403,7 @@ export default function App() {
                 )}
               </div>
               <p className="text-xs text-slate-400 leading-relaxed">
-                Registered pharmaceutical store and premium medical equipment distributor. Delivering certified, trusted healthcare solutions across {settings.address}, and nationwide in Nigeria.
+                Registered pharmaceutical store and premium medical equipment distributor. Delivering certified, trusted healthcare solutions across {settings.address}, and across Kaduna State.
               </p>
               <div className="flex gap-2">
                 <span className="text-[10px] bg-slate-800 px-2 py-0.5 rounded text-teal-300 font-bold">PCN Compliant</span>
@@ -1469,7 +1469,7 @@ export default function App() {
               &copy; {new Date().getFullYear()} {settings.companyFullName}. All Rights Reserved.
             </p>
             <div className="flex gap-4">
-              <button onClick={() => alert("Privacy Policy guidelines conform with clinical patient confidentiality in Nigeria.")} className="hover:underline">Privacy Policy</button>
+              <button onClick={() => alert("Privacy Policy guidelines conform with clinical patient confidentiality in Kaduna State.")} className="hover:underline">Privacy Policy</button>
               <span>•</span>
               <button onClick={() => alert("Medical product distribution adheres to standard PCN and NAFDAC guidelines.")} className="hover:underline">Terms & Conditions</button>
             </div>
