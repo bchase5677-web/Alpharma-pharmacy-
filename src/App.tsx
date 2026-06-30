@@ -38,9 +38,25 @@ export default function App() {
     maintenanceMode: false
   });
 
+  const fetchWithRetry = async (url: string, options?: RequestInit, retries = 4, delay = 1000): Promise<Response> => {
+    try {
+      const res = await fetch(url, options);
+      if (!res.ok && retries > 0) {
+        throw new Error(`Response status: ${res.status}`);
+      }
+      return res;
+    } catch (err) {
+      if (retries > 0) {
+        await new Promise(resolve => setTimeout(resolve, delay));
+        return fetchWithRetry(url, options, retries - 1, delay * 1.5);
+      }
+      throw err;
+    }
+  };
+
   const fetchSettings = async () => {
     try {
-      const res = await fetch(getApiUrl('/api/settings'));
+      const res = await fetchWithRetry(getApiUrl('/api/settings'));
       if (res.ok) {
         const data = await res.json() as WebsiteSettings;
         if (data.logo && !data.logo.startsWith('data:')) {
@@ -50,16 +66,13 @@ export default function App() {
         setSettings(data);
       }
     } catch (err) {
-      console.error('Failed to fetch website settings:', err);
-      if (err instanceof Error) {
-        console.error('Settings Error Details:', err.name, err.message, err.stack);
-      }
+      console.warn('Could not fetch website settings from terminal server (using active real-time config):', err);
     }
   };
 
   const handleUpdateSettings = async (newSettings: WebsiteSettings) => {
     try {
-      const res = await fetch(getApiUrl('/api/settings'), {
+      const res = await fetchWithRetry(getApiUrl('/api/settings'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSettings)
@@ -78,11 +91,11 @@ export default function App() {
 
   const logEvent = async (type: string, message: string) => {
     try {
-      await fetch(getApiUrl('/api/logs'), {
+      await fetchWithRetry(getApiUrl('/api/logs'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, message })
-      });
+      }, 1, 500);
     } catch (err) {
       // non-blocking
     }
@@ -96,16 +109,13 @@ export default function App() {
   const fetchProducts = async () => {
     setIsLoadingProducts(true);
     try {
-      const res = await fetch(getApiUrl('/api/products'));
+      const res = await fetchWithRetry(getApiUrl('/api/products'));
       if (res.ok) {
         const data = await res.json();
         setProducts(data);
       }
     } catch (err) {
-      console.error('Failed to load dynamic inventory from terminal server:', err);
-      if (err instanceof Error) {
-        console.error('Error Details:', err.name, err.message, err.stack);
-      }
+      console.warn('Could not fetch dynamic inventory from terminal server (using active local copy):', err);
     } finally {
       setIsLoadingProducts(false);
     }

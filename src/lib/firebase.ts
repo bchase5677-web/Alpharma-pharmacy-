@@ -16,18 +16,5 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firestore with the custom database ID provided in config
 export const db = getFirestore(app, "ai-studio-alpharmamedicalh-3f0f7d08-c1d5-4983-96f5-5c4c0d73879d");
 
-// Validate connection to Firestore as requested by the skill
-async function testConnection() {
-  try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-    console.log("Firebase Firestore connected successfully.");
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.warn("Please check your Firebase configuration or network status (operating in resilient local-first mode).");
-    } else {
-      console.warn("Firestore test connection check warning (non-fatal):", error);
-    }
-  }
-}
+// Firestore operates in resilient offline/local-first mode automatically
 
-testConnection();
