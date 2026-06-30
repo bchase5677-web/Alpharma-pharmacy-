@@ -1,0 +1,145 @@
+[
+  {
+    "id": "1",
+    "description": "Effective relief from mild to moderate pain including headache, toothache, and menstrual pains. Helps reduce fever.",
+    "price": 650,
+    "reviewsCount": 124,
+    "image": "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500&auto=format&fit=crop&q=80",
+    "category": "Over-the-Counter Medicines",
+    "rating": 4.8,
+    "name": "Paracetamol 500mg Tablets",
+    "availability": "In Stock"
+  },
+  {
+    "id": "2",
+    "name": "Amoxicillin 500mg Capsules",
+    "availability": "Requires Prescription",
+    "category": "Prescription Medicines",
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=500&auto=format&fit=crop&q=80",
+    "reviewsCount": 88,
+    "price": 2200,
+    "description": "Broad-spectrum antibiotic used to treat bacterial infections such as respiratory tract infections, dental infections, and UTIs. Prescription required."
+  },
+  {
+    "id": "3",
+    "description": "Proton pump inhibitor (PPI) that decreases the amount of acid produced in the stomach. Used to treat acid reflux, peptic ulcers, and GERD.",
+    "price": 1500,
+    "reviewsCount": 54,
+    "image": "https://images.unsplash.com/photo-1616679911721-eff6eec18fcd?w=500&auto=format&fit=crop&q=80",
+    "category": "Prescription Medicines",
+    "rating": 4.7,
+    "availability": "In Stock",
+    "name": "Omeprazole 20mg Capsules"
+  },
+  {
+    "id": "4",
+    "image": "https://images.unsplash.com/photo-1603398938378-e54eab446dde?w=500&auto=format&fit=crop&q=80",
+    "description": "Premium fully-automatic upper arm blood pressure monitor. Features intelligent wrapping detection, arrhythmia alert, and 90-record memory capacity.",
+    "reviewsCount": 42,
+    "price": 24500,
+    "name": "Digital Blood Pressure Monitor",
+    "availability": "In Stock",
+    "category": "Blood Pressure Monitors",
+    "rating": 4.9
+  },
+  {
+    "id": "5",
+    "reviewsCount": 61,
+    "price": 19800,
+    "description": "Highly accurate digital blood glucose monitoring system. Delivers results in 5 seconds with a tiny blood sample. Easy-to-read display.",
+    "image": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?w=500&auto=format&fit=crop&q=80",
+    "category": "Diabetes Care",
+    "rating": 4.8,
+    "name": "Accu-Chek Active Glucose Meter",
+    "availability": "In Stock"
+  },
+  {
+    "id": "6",
+    "description": "Essential multivitamin drops formulated for infants and toddlers. Contains vitamins A, C, D, and B-complex to support healthy growth and immune defense.",
+    "price": 3400,
+    "reviewsCount": 39,
+    "image": "https://images.unsplash.com/photo-1512438248247-f0f2a5a8b7f0?w=500&auto=format&fit=crop&q=80",
+    "category": "Baby & Mother Care",
+    "rating": 4.7,
+    "availability": "In Stock",
+    "name": "Infant Multivitamin Drops"
+  },
+  {
+    "id": "7",
+    "description": "High-strength premium orange-flavored Vitamin C effervescent tablets. Dissolves quickly in water to support daily immunity and vitality.",
+    "reviewsCount": 112,
+    "price": 2800,
+    "image": "https://images.unsplash.com/photo-1626715243389-7cfdb6271c69?w=500&auto=format&fit=crop&q=80",
+    "category": "Vitamins & Supplements",
+    "rating": 4.9,
+    "name": "Vitamin C 1000mg Effervescent",
+    "availability": "In Stock"
+  },
+  {
+    "id": "8",
+    "category": "First Aid",
+    "rating": 4.8,
+    "availability": "In Stock",
+    "name": "First Aid Kit (Standard Home/Office)",
+    "description": "Fully compliant emergency first aid bag containing medical tape, bandages, shears, antiseptic wipes, burn gel, CPR mask, and safety pins.",
+    "price": 8500,
+    "reviewsCount": 27,
+    "image": "https://images.unsplash.com/photo-1512428559087-560fa5ceab42?w=500&auto=format&fit=crop&q=80"
+  },
+  {
+    "id": "9",
+    "description": "Accurate SpO2 pulse rate oxygen monitor with crisp multi-directional OLED display. Perfect for clinics and home monitoring of arterial hemoglobin levels.",
+    "price": 9500,
+    "reviewsCount": 33,
+    "image": "https://images.unsplash.com/photo-1581594693702-fbdc51b2763b?w=500&auto=format&fit=crop&q=80",
+    "rating": 4.6,
+    "category": "Medical Equipment",
+    "name": "Fingertip Pulse Oximeter",
+    "availability": "In Stock"
+  },
+  {
+    "id": "10",
+    "name": "Digital Clinical Thermometer",
+    "availability": "In Stock",
+    "rating": 4.7,
+    "category": "Medical Equipment",
+    "image": "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?w=500&auto=format&fit=crop&q=80",
+    "price": 2500,
+    "reviewsCount": 74,
+    "description": "Fast-reading digital body thermometer for oral, underarm, or rectal temperature measurement. Sound indicator alert for high temperature."
+  },
+  {
+    "id": "11",
+    "image": "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=500&auto=format&fit=crop&q=80",
+    "description": "Chloroxylenol formulation for antiseptic disinfection of cuts, wounds, skin, household surfaces, and laundry. Essential family germ defense.",
+    "price": 3100,
+    "reviewsCount": 156,
+    "name": "Dettol Antiseptic Liquid 500ml",
+    "availability": "In Stock",
+    "category": "Personal Care",
+    "rating": 4.9
+  },
+  {
+    "id": "12",
+    "name": "Surgical Face Masks (Box of 50)",
+    "availability": "In Stock",
+    "rating": 4.5,
+    "category": "Hospital Supplies",
+    "image": "https://images.unsplash.com/photo-1586942593568-29361efcd571?w=500&auto=format&fit=crop&q=80",
+    "price": 3500,
+    "reviewsCount": 48,
+    "description": "Premium 3-ply medical-grade disposable face masks with high filtration efficiency. Comfortable nose clips and stretchable elastic ear loops."
+  },
+  {
+    "id": "1782854143850",
+    "name": "Test Product",
+    "category": "Test Category",
+    "price": 100,
+    "description": "A test product",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    "availability": "In Stock",
+    "rating": 5,
+    "reviewsCount": 1
+  }
+]
