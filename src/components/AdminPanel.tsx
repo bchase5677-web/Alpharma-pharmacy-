@@ -167,7 +167,7 @@ export default function AdminPanel({
     setIsLoadingStats(true);
     setStatsError('');
     try {
-      const res = await fetch(getApiUrl('/api/stats'));
+      const res = await fetch(getApiUrl(`/api/stats?t=${Date.now()}`));
       if (res.ok) {
         const data = await res.json();
         setStats(data);

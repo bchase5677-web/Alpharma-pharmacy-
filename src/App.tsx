@@ -56,7 +56,7 @@ export default function App() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetchWithRetry(getApiUrl('/api/settings'));
+      const res = await fetchWithRetry(getApiUrl(`/api/settings?t=${Date.now()}`));
       if (res.ok) {
         const data = await res.json() as WebsiteSettings;
         if (data.logo && !data.logo.startsWith('data:')) {
@@ -109,7 +109,7 @@ export default function App() {
   const fetchProducts = async () => {
     setIsLoadingProducts(true);
     try {
-      const res = await fetchWithRetry(getApiUrl('/api/products'));
+      const res = await fetchWithRetry(getApiUrl(`/api/products?t=${Date.now()}`));
       if (res.ok) {
         const data = await res.json();
         setProducts(data);

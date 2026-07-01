@@ -417,9 +417,33 @@ and offer to redirect them. Always keep your tone trustworthy, professional, and
 });
 
 // Serve API endpoints first
-app.get("/api/products", (req, res) => {
-  const products = loadProducts();
-  res.json(products);
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = loadProducts();
+    
+    // Quick background sync from Firestore to keep local DB fresh
+    try {
+      const snapshot = await runWithTimeout(getDocs(collection(db, "products")), 3000);
+      if (!snapshot.empty) {
+        const firestoreProducts: any[] = [];
+        snapshot.forEach((doc) => {
+          firestoreProducts.push({ id: doc.id, ...doc.data() });
+        });
+        
+        // Merge strategy: Firestore is source of truth if it has data
+        if (firestoreProducts.length > 0) {
+          saveProducts(firestoreProducts);
+          return res.json(firestoreProducts);
+        }
+      }
+    } catch (err: any) {
+      console.warn("Firestore products fetch warning (non-blocking):", err.message);
+    }
+    
+    res.json(products);
+  } catch (error: any) {
+    res.status(500).json({ error: error.message || "Failed to fetch products" });
+  }
 });
 
 // Add new product
@@ -452,7 +476,7 @@ app.post("/api/products", async (req, res) => {
     // Save to Firestore (resilient fallback with timeout)
     const { id, ...data } = product;
     try {
-      await runWithTimeout(setDoc(doc(db, "products", productId), data), 1500);
+      await runWithTimeout(setDoc(doc(db, "products", productId), data), 3000);
     } catch (err: any) {
       console.warn("Firestore products sync warning (non-blocking):", err.message);
     }
@@ -494,7 +518,7 @@ app.put("/api/products/:id", async (req, res) => {
     // Write updates to Firestore (resilient fallback with timeout)
     const { id, ...data } = updatedProduct;
     try {
-      await runWithTimeout(setDoc(doc(db, "products", productId), data, { merge: true }), 1500);
+      await runWithTimeout(setDoc(doc(db, "products", productId), data, { merge: true }), 3000);
     } catch (err: any) {
       console.warn("Firestore product edit sync warning (non-blocking):", err.message);
     }
@@ -520,7 +544,7 @@ app.delete("/api/products/:id", async (req, res) => {
 
     // Delete from Firestore (resilient fallback with timeout)
     try {
-      await runWithTimeout(deleteDoc(doc(db, "products", productId)), 1500);
+      await runWithTimeout(deleteDoc(doc(db, "products", productId)), 3000);
     } catch (err: any) {
       console.warn("Firestore product delete sync warning (non-blocking):", err.message);
     }
