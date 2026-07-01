@@ -1299,7 +1299,7 @@ export default function App() {
                       <MessageSquare className="text-emerald-500 shrink-0" size={16} />
                       <div>
                         <strong className="block text-slate-800 dark:text-slate-200">Phone & WhatsApp Helpdesk</strong>
-                        <a href={`tel:${settings.telephone.replace(/\s+/g, '')}`} className="hover:underline text-blue-600 dark:text-blue-400 font-bold">{settings.telephone}</a>
+                        <a href={`tel:${(settings.telephone || '').replace(/\s+/g, '')}`} className="hover:underline text-blue-600 dark:text-blue-400 font-bold">{settings.telephone}</a>
                       </div>
                     </div>
                   </div>
@@ -1466,7 +1466,7 @@ export default function App() {
             <div className="space-y-3 text-xs text-slate-400">
               <h4 className="text-xs font-bold uppercase tracking-wider text-white">Contact & Support</h4>
               <p><strong>Physical Hub:</strong> {settings.fullAddress}</p>
-              <p><strong>Call Support:</strong> <a href={`tel:${settings.telephone.replace(/\s+/g, '')}`} className="hover:underline text-white font-bold">{settings.telephone}</a></p>
+              <p><strong>Call Support:</strong> <a href={`tel:${(settings.telephone || '').replace(/\s+/g, '')}`} className="hover:underline text-white font-bold">{settings.telephone}</a></p>
               <p><strong>WhatsApp Support:</strong> <a href={`https://wa.me/${settings.whatsappNumber}`} className="hover:underline text-emerald-400 font-bold">{settings.telephone}</a></p>
               <p><strong>Official E-mail:</strong> {settings.email}</p>
             </div>
