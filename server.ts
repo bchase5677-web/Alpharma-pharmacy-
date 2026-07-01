@@ -9,6 +9,7 @@ import {
   getFirestore, 
   doc, 
   getDoc, 
+  getDocs,
   setDoc, 
   deleteDoc, 
   collection, 
@@ -248,7 +249,7 @@ function loadSettings(): any {
       const data = fs.readFileSync(SETTINGS_FILE_PATH, "utf-8");
       const parsed = JSON.parse(data);
       if (parsed.logo === undefined) parsed.logo = "";
-      return parsed;
+      return { ...DEFAULT_SETTINGS, ...parsed };
     } else {
       fs.writeFileSync(SETTINGS_FILE_PATH, JSON.stringify(DEFAULT_SETTINGS, null, 2), "utf-8");
       return DEFAULT_SETTINGS;
@@ -430,11 +431,20 @@ app.get("/api/products", async (req, res) => {
           firestoreProducts.push({ id: doc.id, ...doc.data() });
         });
         
-        // Merge strategy: Firestore is source of truth if it has data
-        if (firestoreProducts.length > 0) {
-          saveProducts(firestoreProducts);
-          return res.json(firestoreProducts);
-        }
+        // Merge strategy: combine Firestore and local to prevent losing newly added local items
+        const mergedMap = new Map();
+        // Add Firestore products first (they are the source of truth for existing)
+        firestoreProducts.forEach(p => mergedMap.set(p.id, p));
+        // Add any local products that don't exist in Firestore (they might have failed to sync)
+        products.forEach(p => {
+          if (!mergedMap.has(p.id)) {
+            mergedMap.set(p.id, p);
+          }
+        });
+        
+        const mergedList = Array.from(mergedMap.values());
+        saveProducts(mergedList);
+        return res.json(mergedList);
       }
     } catch (err: any) {
       console.warn("Firestore products fetch warning (non-blocking):", err.message);

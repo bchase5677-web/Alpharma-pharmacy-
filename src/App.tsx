@@ -172,14 +172,24 @@ export default function App() {
       });
 
       if (firestoreProducts.length > 0) {
-        // Sort products by ID to keep order
-        firestoreProducts.sort((a, b) => {
-          const idA = Number(a.id) || 0;
-          const idB = Number(b.id) || 0;
-          if (idA !== idB) return idA - idB;
-          return String(a.id).localeCompare(String(b.id));
+        setProducts(currentProducts => {
+          const mergedMap = new Map();
+          firestoreProducts.forEach(p => mergedMap.set(p.id, p));
+          currentProducts.forEach(p => {
+            if (!mergedMap.has(p.id)) {
+              mergedMap.set(p.id, p);
+            }
+          });
+          const merged = Array.from(mergedMap.values());
+          // Sort products by ID to keep order
+          merged.sort((a, b) => {
+            const idA = Number(a.id) || 0;
+            const idB = Number(b.id) || 0;
+            if (idA !== idB) return idA - idB;
+            return String(a.id).localeCompare(String(b.id));
+          });
+          return merged;
         });
-        setProducts(firestoreProducts);
       } else {
         fetchProducts(); // Fallback if collection is empty
       }
