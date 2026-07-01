@@ -13,7 +13,7 @@ import {
   Heart, Search, ArrowRight, ShieldCheck, MapPin, Calendar, Clock, Send, CheckCircle2, 
   MessageSquare, Star, ArrowUp, Info, User, HelpCircle, Sparkles, Activity, FileText, CheckCircle, X
 } from 'lucide-react';
-import { onSnapshot, collection, doc } from 'firebase/firestore';
+import { onSnapshot, collection, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from './lib/firebase';
 import { getApiUrl } from './lib/api';
 
@@ -84,8 +84,15 @@ export default function App() {
       const errData = await res.json().catch(() => ({}));
       throw new Error(errData.error || "Server returned status " + res.status);
     } catch (err: any) {
-      console.error('Failed to update settings:', err);
-      throw err;
+      console.error('Failed to update settings via API, falling back to Firestore direct write:', err);
+      try {
+        await setDoc(doc(db, "settings", "config"), newSettings, { merge: true });
+        setSettings(newSettings);
+        return true;
+      } catch (fbErr: any) {
+        console.error('Firestore fallback failed:', fbErr);
+        throw new Error(fbErr.message || err.message || 'Failed to update settings');
+      }
     }
   };
 
@@ -227,8 +234,16 @@ export default function App() {
       const errorData = await res.json().catch(() => ({}));
       throw new Error(errorData.error || `Server responded with status: ${res.status}`);
     } catch (err: any) {
-      console.error('Failed to add product on server:', err);
-      throw err; // Propagate the error so AdminPanel can display it
+      console.error('Failed to add product on server, falling back to Firestore:', err);
+      try {
+        const productId = String(Date.now());
+        const product = { id: productId, ...newProduct };
+        await setDoc(doc(db, "products", productId), product);
+        return true;
+      } catch (fbErr: any) {
+        console.error('Firestore fallback failed:', fbErr);
+        throw new Error(fbErr.message || err.message || 'Failed to add product');
+      }
     }
   };
 
@@ -246,8 +261,14 @@ export default function App() {
       const errorData = await res.json().catch(() => ({}));
       throw new Error(errorData.error || `Server responded with status: ${res.status}`);
     } catch (err: any) {
-      console.error('Failed to update product on server:', err);
-      throw err;
+      console.error('Failed to update product on server, falling back to Firestore:', err);
+      try {
+        await setDoc(doc(db, "products", id), updatedFields, { merge: true });
+        return true;
+      } catch (fbErr: any) {
+        console.error('Firestore fallback failed:', fbErr);
+        throw new Error(fbErr.message || err.message || 'Failed to update product');
+      }
     }
   };
 
@@ -263,8 +284,14 @@ export default function App() {
       const errorData = await res.json().catch(() => ({}));
       throw new Error(errorData.error || `Server responded with status: ${res.status}`);
     } catch (err: any) {
-      console.error('Failed to delete product on server:', err);
-      throw err;
+      console.error('Failed to delete product on server, falling back to Firestore:', err);
+      try {
+        await deleteDoc(doc(db, "products", id));
+        return true;
+      } catch (fbErr: any) {
+        console.error('Firestore fallback failed:', fbErr);
+        throw new Error(fbErr.message || err.message || 'Failed to delete product');
+      }
     }
   };
   
